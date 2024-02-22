@@ -6,6 +6,14 @@ import { useState } from 'react';
 
 
 function App() {
+  const [val, setVal] = useState("Paste your GitHub repository link here.")
+  const click = () => {
+    alert(val)
+  }
+
+  const change = event => {
+    setVal(event.target.value)
+  }
   return (
     <div>
       <div>
@@ -33,7 +41,12 @@ function App() {
         alignItems: 'center',
         
       }}>
-          <input value = "Paste your GitHub repository link here."/>
+          <input type="text"
+      placeholder={val}
+      onChange={change}
+      
+    />
+          <button onClick = {click}> Submit </button>
           
           
            </div>
