@@ -47,7 +47,22 @@ body{
   }
   
   .logo{
-    width: 10%;
+    width: auto;
+    height: auto;
     size: 20px 20px;
     font-size: 20px 20px;
+    display: flex;
   }
+
+
+  .RepoLink {
+
+    align-items: center;
+
+  }
+
+  .GitHubImg {
+    align-items: center;
+    place-content: center;
+  }
+

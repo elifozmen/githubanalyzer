@@ -1,3 +1,5 @@
+import logo1 from './/logo.png'
+
 
 export default function Navbar() {
     return (
@@ -8,9 +10,9 @@ export default function Navbar() {
     <div className="nav-list">
         <div className="logo">
             <img
-                src="/logo.png"
+                src={logo1}
                 width={70}
-                height={60}
+                height={70}
             />
         </div>
     <div className="nav-item"> <a href="/"> GitHub Analyzer </a>
