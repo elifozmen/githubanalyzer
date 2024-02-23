@@ -1,9 +1,7 @@
 import './styles.css';
-import logo2 from './/github_icon.png'
+import logo2 from './github_icon.png';
 import Navbar from './Navbar';
 import { useState } from 'react';
-
-
 
 function App() {
   const [val, setVal] = useState("Paste your GitHub repository link here.")
@@ -14,6 +12,7 @@ function App() {
   const change = event => {
     setVal(event.target.value)
   }
+  
   return (
     <div>
       <div>
@@ -37,25 +36,25 @@ function App() {
         </div>
         <div className="LinkForm" 
         style={{
-        display: 'flex',
-        alignItems: 'center',
-        
-      }}>
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          fontSize: '40px', // Adjust the font size here
+          width: '80vh',
+        }}>
           <input type="text"
-      placeholder={val}
-      onChange={change}
-      
-    />
-          <button onClick = {click}> Submit </button>
-          
-          
-           </div>
+            placeholder={val}
+            onChange={change}
+            style={{ width: '100%',
+            marginBottom: '10px',
+
+          }} // Adjust input width and spacing
+          />
+          <button style={{ width: '100px' }} 
+          onClick={click}> Submit </button> {/* Adjust button width */}
+        </div>
       </div>
-      
-
     </div>
-
-    
   );
 }
 
