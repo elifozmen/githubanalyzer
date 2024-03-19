@@ -2,11 +2,24 @@ import './styles.css';
 import logo2 from './github_icon.png';
 import Navbar from './Navbar';
 import { useState } from 'react';
+import axios from 'axios';
 
 function App() {
   const [val, setVal] = useState("Paste your GitHub repository link here.")
+
+  const sendGitHubLinkToFlask = (githubLink) => {
+    axios.post('http://localhost:5000/submit-github-link', { github_link: githubLink })
+      .then(response => {
+        // Handle the response here
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error sending GitHub link to Flask:', error);
+      });
+  };
+
   const click = () => {
-    alert(val)
+    sendGitHubLinkToFlask(val);
   }
 
   const change = event => {
@@ -28,11 +41,11 @@ function App() {
         height: '60vh',
       }}> 
         <div className="GitHubImg" >
-        <img
-                src={logo2}
-                width={200}
-                height={200}
-            />
+          <img
+            src={logo2}
+            width={200}
+            height={200}
+          />
         </div>
         <div className="LinkForm" 
         style={{
@@ -46,12 +59,11 @@ function App() {
             placeholder={val}
             onChange={change}
             style={{ width: '100%',
-            marginBottom: '10px',
-
-          }} // Adjust input width and spacing
+              marginBottom: '10px',
+            }} // Adjust input width and spacing
           />
           <button style={{ width: '100px' }} 
-          onClick={click}> Submit </button> {/* Adjust button width */}
+            onClick={click}> Submit </button> {/* Adjust button width */}
         </div>
       </div>
     </div>
