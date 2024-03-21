@@ -2,13 +2,15 @@ import './styles.css';
 import Navbar from './Navbar';
 
 
-function categories() {
+function compatibility() {
   return (
     <div>
       <Navbar></Navbar>
+
+      <div> </div>
 
     </div>
   );
 }
 
-export default categories;
+export default compatibility;
