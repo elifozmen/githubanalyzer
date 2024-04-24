@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar.js';
 import logo2 from './github_icon.png';
@@ -8,12 +8,15 @@ function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
   const [developerInfo, setDeveloperInfo] = useState(null);
 
+  useEffect(() => {
+    // Fetch developer info when component mounts
+    getDeveloperInfo();
+  }, []);
+
   const sendGitHubLinkToFlask = (githubLink) => {
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
-        // Handle the response here
         console.log(response.data);
-        // After receiving response, get developer info
         getDeveloperInfo();
       })
       .catch(error => {
@@ -24,12 +27,41 @@ function Home() {
   const getDeveloperInfo = () => {
     axios.get('http://localhost:5001/get-developer-info')
       .then(response => {
-        // Handle the response here
         console.log(response.data);
         setDeveloperInfo(response.data);
+        getDeveloperInfo2();
+        getDeveloperInfo3();
       })
       .catch(error => {
         console.error('Error getting developer info:', error);
+      });
+  };
+
+  const getDeveloperInfo2 = () => {
+    axios.get('http://localhost:5001/get-developer-info2')
+      .then(response => {
+        console.log(response.data);
+        setDeveloperInfo(prevState => ({
+          ...prevState,
+          isJack: response.data.isJack
+        }));
+      })
+      .catch(error => {
+        console.error('Error getting developer info2:', error);
+      });
+  };
+
+  const getDeveloperInfo3 = () => {
+    axios.get('http://localhost:5001/get-developer-info3')
+      .then(response => {
+        console.log(response.data);
+        setDeveloperInfo(prevState => ({
+          ...prevState,
+          Maven: response.data.Maven
+        }));
+      })
+      .catch(error => {
+        console.error('Error getting developer info3:', error);
       });
   };
 
@@ -42,10 +74,8 @@ function Home() {
   }
   
   return (
-    <div>
-      <div>
-        <Navbar />
-      </div>
+    <div style={{ color: 'white' }}>
+      <Navbar />
 
       <div className="RepoLink" 
         style={{
@@ -85,17 +115,23 @@ function Home() {
 
       {/* Display developer info */}
       {developerInfo && (
-  <div>
-    <h2>Developer Information:</h2>
-    <div>
-      {developerInfo.developerIDs.map((id, index) => (
-        <div key={index}>
-          Developer ID: {id}, Developer Name: {developerInfo.developerNames[index]}
+        <div>
+          <h2>Developer Information:</h2>
+          <div>
+            {developerInfo.developerIDs.map((id, index) => (
+              <div key={index}>
+                Developer ID: {id}, Developer Name: {developerInfo.developerNames[index]}
+                {developerInfo.isJack !== undefined && developerInfo.isJack[id] !== undefined && (
+                  <span> Jack Status: {developerInfo.isJack[id] ? 'Yes' : 'No'}</span>
+                )}
+                {developerInfo.Maven !== undefined && developerInfo.Maven[id] !== undefined && (
+                  <span> Maven: {developerInfo.Maven[id]}</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-)}
+      )}
 
     </div>
   );

@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import axios from 'axios';
 
 function categories() {
+  
   return (
     <div>
       <Navbar></Navbar>
