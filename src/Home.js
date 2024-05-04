@@ -25,15 +25,15 @@ function Home() {
       .then(response => {
         console.log(response.data);
         setDeveloperInfo(response.data);
-        setShowLoader(false); // Hide the loader after the request is completed
-        setShowData(true); // Show the data after the request is completed
+         // Hide the loader after the request is completed
+        
       })
       .catch(error => {
         console.error('Error sending GitHub link to Flask:', error);
-      })
-      .finally(() => {
-        setLoading(false); // Stop loading when request completes (either success or failure)
       });
+      //.finally(() => {
+      //  setLoading(false); // Stop loading when request completes (either success or failure)
+      //});
   };
 
   const getDeveloperInfo = () => {
@@ -73,6 +73,8 @@ function Home() {
           ...prevState,
           Maven: response.data.Maven
         }));
+        setShowData(true); // Show the data after the request is completed
+        setShowLoader(false);
       })
       .catch(error => {
         console.error('Error getting developer info3:', error);
