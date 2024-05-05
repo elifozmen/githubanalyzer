@@ -15,6 +15,7 @@ body{
      align-items: top;
      gap: 2rem;
      padding: 20px 60px;
+     margin-bottom: 20px; 
 }
 
 .nav-list{
@@ -100,3 +101,14 @@ button {
 }
 
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Three equal-width columns */
+  gap: 30px; /* Spacing between grid items */
+  margin-left: 30px;
+  margin-bottom: 30px; 
+}
+
+.grid-item {
+  /* Optionally, you can add styling for each grid item */
+}

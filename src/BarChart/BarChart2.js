@@ -6,16 +6,16 @@ import axios from 'axios';
 
 Chart.register(...registerables);
 
-const BarGraph = ({ title }) => {
+const BarGraph2 = ({ title }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     // Fetch chart data when component mounts
-    getChartData();
+    getChartData2();
   }, []);
 
-  const getChartData = () => {
-    axios.get('http://localhost:5001/get-chart-data')
+  const getChartData2 = () => {
+    axios.get('http://localhost:5001/get-chart-data2')
       .then(response => {
         console.log(response.data);
         const { labels, datapoints } = response.data;
@@ -58,4 +58,4 @@ const BarGraph = ({ title }) => {
   );
 };
 
-export default BarGraph;
+export default BarGraph2;

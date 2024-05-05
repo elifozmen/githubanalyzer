@@ -19,14 +19,12 @@ function Home() {
   }, []);
 
   const sendGitHubLinkToFlask = (githubLink) => {
-    setLoading(true); // Start loading when request starts
-    setShowLoader(true); // Show the loader when the button is clicked
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
         console.log(response.data);
         setDeveloperInfo(response.data);
-         // Hide the loader after the request is completed
-        
+        setLoading(true); // Start loading when request starts
+        setShowLoader(true); // Show the loader when the button is clicked
       })
       .catch(error => {
         console.error('Error sending GitHub link to Flask:', error);
