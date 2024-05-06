@@ -43,7 +43,8 @@ const BarGraph = ({ title }) => {
   // Grafik stilini tanımla
   const graphStyle = {
     minHeight: '10rem',
-    maxWidth: '540px',
+    maxWidth: '6000px',
+    minHeight: '400px',
     width: '100%',
     border: '1px solid #C4C4C4',
     borderRadius: '0.375rem',

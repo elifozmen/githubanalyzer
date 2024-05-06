@@ -65,22 +65,22 @@ const BarGraph4 = () => {
       <div style={{ display: 'grid', gridTemplateColumns: `1fr repeat(${developerIds.length}, 1fr)`, gridTemplateRows: `repeat(${developerIds.length}, 1fr)`, gap: '1px' }}>
         {/* Render developer IDs for the X-axis (top of the matrix) */}
         {developerIds.map((devId, index) => (
-          <div key={index} style={{ gridColumn: index + 2, textAlign: 'center', ...cellStyle }}>
-            {devId}
+          <div key={index} style={{ gridColumn: index + 1, textAlign: 'center', ...cellStyle }}>
+            {index + 1}
           </div>
         ))}
   
         {/* Render developer IDs for the Y-axis (left side of the matrix) */}
         {developerIds.map((devId, index) => (
           <div key={index} style={{ gridRow: index + 1, ...cellStyle, textAlign: 'center' }}>
-            {devId}
+            {index + 1}
           </div>
         ))}
   
         {/* Render similarity values with proper alignment */}
         {similarityMatrix.map((row, rowIndex) => (
           row.map((value, colIndex) => (
-            <div key={`${rowIndex}-${colIndex}`} style={{ gridRow: rowIndex + 1, gridColumn: colIndex + 2 }}>
+            <div key={`${rowIndex}-${colIndex}`} style={{ gridRow: rowIndex + 1, gridColumn: colIndex + 1 }}>
               {renderCell(value, rowIndex, colIndex)}
             </div>
           ))
@@ -88,7 +88,6 @@ const BarGraph4 = () => {
       </div>
     </div>
   );
-  
 };
 
 export default BarGraph4;

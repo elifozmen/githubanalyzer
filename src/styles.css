@@ -112,3 +112,15 @@ button {
 .grid-item {
   /* Optionally, you can add styling for each grid item */
 }
+
+
+.grid-container_similarity {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 20px; /* Gap between columns */
+}
+
+.grid-item_similarity {
+  padding: 20px;
+  border: 1px solid white; /* Add border to each grid item if needed */
+}

@@ -20,7 +20,7 @@ export const options = (title) => ({
           let label = context.dataset.label || '';
 
           if (label) {
-            label += 'Katılımcı Girişleri'; // Özel etiket metni ekle
+            label += ''; // Özel etiket metni ekle
           }
           if (context.parsed.y !== null) {
             label += ` # ${context.parsed.y} `; // Etikete y-eksen değerini ekle

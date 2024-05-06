@@ -4,7 +4,7 @@ import './styles.css';
 import BarGraph from './BarChart/BarChart';
 import BarGraph2 from './BarChart/BarChart2';
 import BarGraph3 from './BarChart/BarChart3';
-import BarGraph4 from './BarChart/BarChart4';
+import BarGraph5 from './BarChart/BarChart5';
 
 
 function Workload() {
@@ -22,8 +22,9 @@ function Workload() {
           <BarGraph3 title="Lines per Developer" />
         </div>
         <div className="grid-item">
-          <BarGraph4 title="Matrix" />
+          <BarGraph5 title="Balance" />
         </div>
+        
       </div>
     </div>
   );
