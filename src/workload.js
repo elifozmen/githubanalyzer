@@ -11,21 +11,6 @@ function Workload() {
   return (
     <div>
       <Navbar />
-      <div className="grid-container">
-        <div className="grid-item">
-          <BarGraph title="Commits per Developer" />
-        </div>
-        <div className="grid-item">
-          <BarGraph2 title="Files per Developer" />
-        </div>
-        <div className="grid-item">
-          <BarGraph3 title="Lines per Developer" />
-        </div>
-        <div className="grid-item">
-          <BarGraph5 title="Balance" />
-        </div>
-        
-      </div>
     </div>
   );
 }

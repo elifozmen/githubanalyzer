@@ -13,26 +13,25 @@ export default function Navbar() {
                         alt="logo"
                     />
                 </div>
-                <div className="nav-item">
-                    {/* GitHub Analyzer için Link componentini kullanıyoruz */}
+                {/*<div className="nav-item">
+                    
                     <Link to="/">GitHub Analyzer</Link>
                 </div>
                 <div className="nav-item">
-                    {/* Developer Categories için Link componentini kullanıyoruz */}
+                    
                     <Link to="/categories">Developer Categories</Link>
                 </div>
                 <div className="nav-item">
-                    {/* Compatibility için Link componentini kullanıyoruz */}
+                    
                     <Link to="/compatibility">Compatibility</Link>
                 </div>
                 <div className="nav-item">
-                    {/* Workload Distribution için Link componentini kullanıyoruz */}
+                    
                     <Link to="/workload">Workload Distribution</Link>
                 </div>
                 <div className="nav-item">
-                    {/* Info için Link componentini kullanıyoruz */}
                     <Link to="/info">Info</Link>
-                </div>
+                </div>*/}
             </div>
         </div>
     );
