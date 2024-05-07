@@ -120,7 +120,7 @@ function Home() {
   };
 
   return (
-    <div style={{ color: 'white' }}>
+    <div style={{ color: 'white'}}>
       <Navbar />
 
       <div className="repo-link"
