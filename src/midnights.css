@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Midnights';
+    src: url('./fonts/Midnights/pragmaticamedium-webfont.woff2') format('woff2'),
+         url('./fonts/Midnights/pragmaticamedium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-midnights {
+    font-family: 'Midnights';
+}

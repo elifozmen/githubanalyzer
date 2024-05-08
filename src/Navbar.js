@@ -4,7 +4,7 @@ import logo1 from './logo.png'; // Logo resmini import ediyoruz
 export default function Navbar() {
     return (
         <div className="navbar">
-            <div className="nav-list">
+            {/*<div className="nav-list">
                 <div className="logo">
                     <img
                         src={logo1}
@@ -12,7 +12,8 @@ export default function Navbar() {
                         height={70}
                         alt="logo"
                     />
-                </div>
+                </div> </div>*/}
+            
                 {/*<div className="nav-item">
                     
                     <Link to="/">GitHub Analyzer</Link>
@@ -32,7 +33,7 @@ export default function Navbar() {
                 <div className="nav-item">
                     <Link to="/info">Info</Link>
                 </div>*/}
-            </div>
+            
         </div>
     );
 }

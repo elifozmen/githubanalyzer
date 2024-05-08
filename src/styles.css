@@ -8,7 +8,7 @@ body{
 }
 
 .navbar{
-     background-color: #61dafb;
+     background-color: #3c69c5;
      color: white;
      display: flex;
      justify-content: space-between;
@@ -16,6 +16,7 @@ body{
      gap: 2rem;
      padding: 20px 60px;
      margin-bottom: 20px; 
+     height:20px;
 }
 
 .nav-list{
@@ -33,7 +34,7 @@ body{
   }
 
   .random{
-    color:#3c69c5;
+    color:#80a1e4d9;
   }
 
 
@@ -49,6 +50,7 @@ body{
   .nav-item2{
     color:#ffffff;
     padding-left: 5px;
+    
   }
   
   a:link, a:visited {
@@ -67,8 +69,8 @@ body{
   }
   
   .logo{
-    width: auto;
-    height: auto;
+    width: 20px;
+    height: 20px;
     size: 20px 20px;
     font-size: 20px 20px;
     display: flex;
@@ -82,8 +84,13 @@ body{
   }
 
   .GitHubImg {
-    align-items: center;
-    place-content: center;
+    align-items: top;
+    place-content: top;
+  }
+
+  .github-img{
+    align-items: top;
+    place-content: top;
   }
 
   .container {
@@ -108,6 +115,7 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #afc7f46c;
 }
 
 input {
@@ -143,3 +151,88 @@ button {
   padding: 20px;
   border: 1px solid white; /* Add border to each grid item if needed */
 }
+
+.linkInput{
+  --borderWidth: 2;
+  --buttonColor: #80a1e4d9;
+  --bg: hsl(0, 0%, 5%);
+  --backdrop: transparent;
+  --fontSize: 1;
+  --horizontalPadding: 400px;
+  --verticalPadding: 8;
+  background: var(--backdrop);
+  border: calc(var(--borderWidth) * 1px) solid var(--buttonColor);
+  border-radius: 10px;
+  text-align: center;
+  line-height: 24px;
+  color: var(--textColor, var(--buttonColor));
+  cursor: pointer;
+  font-size: calc(var(--fontSize) * 1rem);
+  font-weight: bold;
+  font-family: sans-serif;
+  outline: transparent;
+  padding: calc(var(--verticalPadding) * 1px) calc(var(--horizontalPadding) * 1px);
+  position: relative;
+  text-decoration: none;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  transition: transform 0.2s;
+  transform: translate(0, calc(var(--y, 0) * 1%)) scale(var(--scale, 1));
+}
+
+.dir-control {
+  --borderWidth: 2;
+  --buttonColor: #80a1e4d9;
+  --bg: hsl(0, 0%, 5%);
+  --backdrop: transparent;
+  --fontSize: 1;
+  --horizontalPadding: 16;
+  --verticalPadding: 8;
+  background: var(--backdrop);
+  border: calc(var(--borderWidth) * 1px) solid var(--buttonColor);
+  border-radius: 10px;
+  text-align: center;
+  line-height: 24px;
+  color: var(--textColor, var(--buttonColor));
+  cursor: pointer;
+  font-size: calc(var(--fontSize) * 1rem);
+  font-weight: bold;
+  font-family: sans-serif;
+  outline: transparent;
+  padding: calc(var(--verticalPadding) * 1px) calc(var(--horizontalPadding) * 1px);
+  position: relative;
+  text-decoration: none;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  transition: transform 0.2s;
+  transform: translate(0, calc(var(--y, 0) * 1%)) scale(var(--scale, 1));
+}
+
+.dir-control:hover {
+  --y: -5;
+  --scale: 1.05;
+}
+
+.dir-control:active {
+  --y: 0;
+  --scale: 0.95;
+}
+
+
+.devinfoTable{
+  font-family: Midnights;
+  text-decoration-color: #ffffff;
+  color:#ffffff
+}
+
+.projinfoTable{
+  font-family: Midnights;
+}
+
+
