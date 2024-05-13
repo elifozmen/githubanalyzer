@@ -47,7 +47,7 @@ function Home() {
   const sendGitHubLinkToFlask = (githubLink) => {
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         setDeveloperInfo(response.data);
 
       })
@@ -221,48 +221,49 @@ function Home() {
 
       {/* Developer Categories */}
 
-      {developerInfo ? (
-        <div>
-          <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
-          <div style={{padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
-            <table style={{ margin: 'auto', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr className="font-midnights">
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer ID</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Name</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Jack (%)</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Maven (%)</th> {/* Updated header */}
-                </tr>
-              </thead>
-              <tbody>
-                {developerInfo.developerIDs.map((id, index) => (
-                  <tr key={index}>
-                    <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{id}</td>
-                    <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
-                    <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
-                      {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
-                    </td>
-                    <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
-                      {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <div className="font-midnights" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      {developerInfo && developerInfo.developerIDs && developerInfo.developerNames ? (
+  <div>
+    <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
+    <div style={{ padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
+      <table style={{ margin: 'auto', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr className="font-midnights">
+            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer ID</th>
+            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Name</th>
+            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Jack (%)</th>
+            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Maven (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {developerInfo.developerIDs.map((id, index) => (
+            <tr key={index}>
+              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{id}</td>
+              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
+              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
+                {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
+              </td>
+              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
+                {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+) : (
+  <div className="font-midnights" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+    {/* Handle loading state or display a message when developerInfo is undefined */}
+  </div>
+)}
 
-        </div>
-      )}
 
 
       {/* Developer Compatibilities */}
 
       {/* Display developer similarity data */}
 
-      {developerInfo5 ? (
+      {developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
   <div>
     <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
     <div style={{ padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
@@ -293,12 +294,12 @@ function Home() {
             </tbody>
           </table>
         </div>
-        
       ))}
     </div>
     <BarGraph4 title="Matrix" />
   </div>
 ) : null}
+
 
 
 
