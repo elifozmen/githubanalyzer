@@ -11,6 +11,7 @@ import BarGraph3 from './BarChart/BarChart3';
 import BarGraph5 from './BarChart/BarChart5';
 import { TypeAnimation } from 'react-type-animation';
 import "swiftie/midnights.css"
+import SimilarityTable from './SimilarityTable';
 
 
 
@@ -165,7 +166,7 @@ function Home() {
     
           />
           {/* Button with loading indicator */}
-          <button className="dir-control" style={{ fontFamily:'Midnights', width: '400px', height: '40px' }}
+          <button className="dir-control" style={{textColor:'#020e2759', fontFamily:'Midnights', width: '400px', height: '40px' }}
             onClick={handleClick}> Submit
           </button> {/* Adjust button width */}
         </div>
@@ -222,7 +223,7 @@ function Home() {
 
       {developerInfo ? (
         <div>
-          <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '20px' }}>Developer Information:</h2>
+          <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
           <div style={{padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
             <table style={{ margin: 'auto', borderCollapse: 'collapse' }}>
               <thead>
@@ -261,40 +262,43 @@ function Home() {
 
       {/* Display developer similarity data */}
 
-      {developerInfo5 && (
-        <div >
-          <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '20px' }}>Developer Similarity: </h2>
-          <div className="grid-container_similarity" style={{ fontFamily:'Midnights', padding: '40px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
-
-            <div  >
-              <div>
-
-                <div className="nav-list2" >
-                  {developerInfo5.developerIDs.map((id, index) => (
-                    <div className="nav-item2" key={index}>
-                      Developer ID: {id}, Developer Name: {developerInfo5.developerNames[index]}
-                      <div>
-                        Similar Developers:
-                        <ul>
-                          {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], index) => (
-                            <li key={index}>
-                              Developer ID: {similarDev}, Similarity: {similarity}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="nav-item2">
-                    <BarGraph4 title="Matrix" />
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
+      {developerInfo5 ? (
+  <div>
+    <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
+    <div style={{ padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
+      {developerInfo5.developerIDs.map((id, index) => (
+        <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
+          <table style={{ margin: 'auto', borderCollapse: 'collapse', width: '100%' }}>
+            <thead>
+              <tr className="font-midnights">
+                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer ID</th>
+                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Name</th>
+                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Similar Developers</th>
+              </tr>
+            </thead>
+            <tbody key={index}>
+              <tr>
+                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{id}</td>
+                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
+                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>
+                  <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
+                    {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
+                      <li key={simIndex}>
+                        Developer ID: {similarDev}, Similarity: {similarity.toFixed(3)}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      )}
+        
+      ))}
+    </div>
+    <BarGraph4 title="Matrix" />
+  </div>
+) : null}
 
 
 
