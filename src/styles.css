@@ -367,7 +367,6 @@ border-collapse:separate  ;
 }
 
 
-
 .orangish{
   background-color: #faa356;
 }
@@ -391,4 +390,15 @@ border-collapse:separate  ;
 .themeblue{
   background-color:#4894fc;
 
+}
+
+.simMatrix{
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  max-width: fit-content ;
+  margin:auto;
+  margin-top: 5px;
+  margin-bottom: 100px;
 }
