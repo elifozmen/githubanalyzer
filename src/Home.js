@@ -165,7 +165,7 @@ function Home() {
     
           />
           {/* Button with loading indicator */}
-          <button className="dir-control" style={{textColor:'#020e2759', fontFamily:'Midnights', width: '400px', height: '40px' }}
+          <button className="dir-control" style={{color:"#4894fc",textColor:'#4894fc', fontFamily:'Midnights', width: '400px', height: '40px' }}
             onClick={handleClick}> Submit
           </button> {/* Adjust button width */}
         </div>
@@ -178,7 +178,9 @@ function Home() {
               2000,
               'Please wait...',
               2000,
-              'Thank you for using GitHub Analyzer....',
+              'Thank you for using GitHub Analyzer...',
+              2000,
+              'You may need to refresh the page...',
               2000
             ]}
             wrapper="span"
@@ -268,19 +270,19 @@ function Home() {
     <div style={{alignItems:"center", alignContent:"center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
       {developerInfo5.developerIDs.map((id, index) => (
         <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
-          <table className="generalInfo">
-            <thead className ="tableHead">
-              <tr className ="tableColumns">
-                <th className ="tableHeadCells" style={{  padding: '8px' }}>Developer ID</th>
-                <th className ="tableHeadCells" style={{  padding: '8px' }}>Developer Name</th>
-                <th className ="tableHeadCells" style={{  padding: '8px' }}>Similar Developers</th>
+          <table className="generalInfoSim">
+            <thead className ="tableHeadSim">
+              <tr className ="tableColumnsSim">
+                <th className ="tableHeadCellsSim" style={{  padding: '8px' }}>Developer ID</th>
+                <th className ="tableHeadCellsSim" style={{  padding: '8px' }}>Developer Name</th>
+                <th className ="tableHeadCellsSim" style={{  padding: '8px' }}>Similar Developers</th>
               </tr>
             </thead>
             <tbody key={index}>
               <tr>
-                <td className="tableCells" style={{  border: '1px solid gray',padding: '8px', textAlign: 'center' }}>{id}</td>
-                <td className="tableCells" style={{border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                <td className="tableCellsSim" style={{  border: '1px solid gray',padding: '8px', textAlign: 'center' }}>{id}</td>
+                <td className="tableCellsSim" style={{border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
+                <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
                   <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
                     {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
                       <li key={simIndex}>

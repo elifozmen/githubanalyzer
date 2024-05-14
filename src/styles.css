@@ -189,7 +189,7 @@ button {
   --borderWidth: 2;
   --buttonColor: #c6cdd5;
   --bg: hsl(0, 0%, 5%);
-  --backdrop: #4893fc57;
+  
   --fontSize: 1;
   --horizontalPadding: 16;
   --verticalPadding: 8;
@@ -230,7 +230,7 @@ button {
 .generalInfo{
   margin: auto;
   border-collapse:separate  ;
-  background-color:#a3b5da45;
+  background-color:#c6cdd500;
   border-width: 3px;
   border-color: #282c34;
   font-family: 'Midnights';
@@ -239,8 +239,8 @@ button {
 
 .tableHead{
   font-family: 'Midnights';
-  color:#010a1c;
-  background-color:#2f6ce729;
+  color:#161b22;
+  background-color:#a2d2fb;
   border-color: #282c34;
   align-items: center;
   border-style: hidden;
@@ -249,7 +249,7 @@ button {
 }
 
 .tableColumns{
-  border-color: #838b9c;
+  border-color: #c6cdd5;
   border-style: hidden;
   border-collapse:separate  ;
 
@@ -260,7 +260,7 @@ border-style: hidden;
 align-items: center;
 text-align-last: center;
 text-align: center;
-color: #c7d9fc;
+color: #a2d2fb;
 border-collapse:separate  ;
 }
 
@@ -268,22 +268,59 @@ border-collapse:separate  ;
   font-family: 'Midnights';
   color:#010a1c;
   background-color:#2f6ce729;
-  border-color: #282c34;
+  border-color: #a2d2fb;
   align-items: center;
   border-style: hidden;
   border-collapse:separate  ;
 }
 
-.simMatrix{
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  max-width: fit-content ;
-  margin:auto;
-  margin-top: 5px;
-  margin-bottom: 100px;
+.generalInfoSim{
+  margin: auto;
+  border-collapse:separate  ;
+  background-color:#c6cdd500;
+  border-width: 3px;
+  border-color: #282c34;
+  font-family: 'Midnights';
+  border-style: hidden;
 }
+
+.tableHeadSim{
+  font-family: 'Midnights';
+  color:#161b22;
+  background-color:#7ce38b;
+  border-color: #282c34;
+  align-items: center;
+  border-style: hidden;
+  border-collapse:separate  ;
+  
+}
+
+.tableColumnsSim{
+  border-color: #c6cdd5;
+  border-style: hidden;
+  border-collapse:separate  ;
+
+}
+
+.tableCellsSim{
+border-style: hidden;
+align-items: center;
+text-align-last: center;
+text-align: center;
+color: #ddf4e0;
+border-collapse:separate  ;
+}
+
+.tableHeadCellsSim{
+  font-family: 'Midnights';
+  color:#010a1c;
+  background-color:#2f6ce729;
+  border-color: #a2d2fb;
+  align-items: center;
+  border-style: hidden;
+  border-collapse:separate  ;
+}
+
 
 .blackk{
   background-color: #0d1117;
@@ -312,6 +349,24 @@ border-collapse:separate  ;
 .redish{
   background-color: #fa7970;
 }
+
+.redishh{
+  background-color: #570601;
+}
+
+.redishhh{
+  background-color: #ae342b;
+}
+
+.redishhhh{
+  background-color: #f0a19c;
+}
+
+.redishhhhh{
+  background-color: #f45246;
+}
+
+
 
 .orangish{
   background-color: #faa356;
