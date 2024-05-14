@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar.js'; // Import Navbar component
 import './styles.css';
-import RingLoader from "react-spinners/RingLoader";
-import logo2 from './github_icon.png';
+import logo2 from './github_iconn.png';
 import BarGraph4 from './BarChart/BarChart4';
 import BarGraph from './BarChart/BarChart';
 import BarGraph2 from './BarChart/BarChart2';
@@ -11,7 +10,7 @@ import BarGraph3 from './BarChart/BarChart3';
 import BarGraph5 from './BarChart/BarChart5';
 import { TypeAnimation } from 'react-type-animation';
 import "swiftie/midnights.css"
-import SimilarityTable from './SimilarityTable';
+
 
 
 
@@ -138,7 +137,7 @@ function Home() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'top',
-          height: '60vh',
+          marginBottom: '100px',
         }}>
         {/*  */}
         <div className="github-img" >
@@ -184,7 +183,7 @@ function Home() {
             ]}
             wrapper="span"
             speed={70}
-            style={{color:'#a8c1f5f8' , fontFamily:'Midnights', fontSize: '25px', display: 'inline-block', padding:'10px' }}
+            style={{color:'#4894fc' , fontFamily:'Midnights', fontSize: '25px', display: 'inline-block', padding:'10px' }}
             repeat={Infinity}
           />
         )}
@@ -195,23 +194,23 @@ function Home() {
       {/* Developer Information */}
       {developerInfo4 && (
         <div>
-          <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '20px' }}>General Information:</h2>
-          <div style={{padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white' }}>
-            <table style={{ margin: 'auto', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Names</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Total Commit Count</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Total File Count</th>
-                  <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Total Developer Count</th>
+          <h2 className="font-midnights" style={{color:"#ecf2f8", textAlign: 'center', marginTop: '20px' }}>General Information:</h2>
+          <div style={{padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white' , marginTop:'0px'}}>
+            <table className="generalInfo">
+              <thead className ="tableHead">
+                <tr className ="tableColumns" style={{  borderColor: '#282c34' }} >
+                  <th  className ="tableHeadCells" style={{  padding: '8px' }}>Developer Names</th>
+                  <th className="tableHeadCells" style={{  padding: '8px' }}>Total Commit Count</th>
+                  <th className="tableHeadCells" style={{  padding: '8px' }}>Total File Count</th>
+                  <th className="tableHeadCells" style={{  padding: '8px' }}>Total Developer Count</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo4.developer_names.join(', ')}</td>
-                  <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo4.total_commit_count}</td>
-                  <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo4.total_file_count}</td>
-                  <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo4.total_developer_count}</td>
+                  <td className="tableCells" style={{ border: '1px solid gray',padding: '8px' }}>{developerInfo4.developer_names.join(', ')}</td>
+                  <td className="tableCells" style={{border: '1px solid gray',  padding: '8px' }}>{developerInfo4.total_commit_count}</td>
+                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_file_count}</td>
+                  <td className="tableCells" style={{border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_developer_count}</td>
                 </tr>
               </tbody>
             </table>
@@ -223,26 +222,26 @@ function Home() {
 
       {developerInfo && developerInfo.developerIDs && developerInfo.developerNames ? (
   <div>
-    <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
-    <div style={{ padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
-      <table style={{ margin: 'auto', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr className="font-midnights">
-            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer ID</th>
-            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Name</th>
-            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Jack (%)</th>
-            <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Maven (%)</th>
+    <h2 className="font-midnights" style={{color:"#ecf2f8",  textAlign: 'center', marginTop: '50px' }}>Developer Categories:</h2>
+    <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop:'5px' }}>
+      <table className="generalInfo">
+        <thead className ="tableHead">
+          <tr className ="tableColumns">
+            <th  className ="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
+            <th  className ="tableHeadCells" style={{padding: '8px' }}>Developer Name</th>
+            <th  className ="tableHeadCells" style={{  padding: '8px' }}>Jack (%)</th>
+            <th  className ="tableHeadCells" style={{ padding: '8px' }}>Maven (%)</th>
           </tr>
         </thead>
         <tbody>
           {developerInfo.developerIDs.map((id, index) => (
             <tr key={index}>
-              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{id}</td>
-              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
-              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
+              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{id}</td>
+              <td className="tableCells" style={{border: '1px solid gray', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
+              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
                 {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
               </td>
-              <td className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>
+              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
                 {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
               </td>
             </tr>
@@ -264,24 +263,24 @@ function Home() {
       {/* Display developer similarity data */}
 
       {developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
-  <div>
-    <h2 className="font-midnights" style={{ textAlign: 'center', marginTop: '50px' }}>Developer Information:</h2>
-    <div style={{ padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
+  <div style={{alignItems:"center", alignContent:"center"}}>
+    <h2 className="font-midnights" style={{color:"#ecf2f8",  textAlign: 'center', marginTop: '50px' }}>Developer Compatibilities:</h2>
+    <div style={{alignItems:"center", alignContent:"center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
       {developerInfo5.developerIDs.map((id, index) => (
         <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
-          <table style={{ margin: 'auto', borderCollapse: 'collapse', width: '100%' }}>
-            <thead>
-              <tr className="font-midnights">
-                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer ID</th>
-                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Developer Name</th>
-                <th className="font-midnights" style={{ border: '1px solid white', padding: '8px' }}>Similar Developers</th>
+          <table className="generalInfo">
+            <thead className ="tableHead">
+              <tr className ="tableColumns">
+                <th className ="tableHeadCells" style={{  padding: '8px' }}>Developer ID</th>
+                <th className ="tableHeadCells" style={{  padding: '8px' }}>Developer Name</th>
+                <th className ="tableHeadCells" style={{  padding: '8px' }}>Similar Developers</th>
               </tr>
             </thead>
             <tbody key={index}>
               <tr>
-                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{id}</td>
-                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
-                <td className="font-midnights" style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>
+                <td className="tableCells" style={{  border: '1px solid gray',padding: '8px', textAlign: 'center' }}>{id}</td>
+                <td className="tableCells" style={{border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
+                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
                   <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
                     {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
                       <li key={simIndex}>
@@ -296,7 +295,15 @@ function Home() {
         </div>
       ))}
     </div>
-    <BarGraph4 title="Matrix" />
+   
+  </div>
+) : null}
+
+
+{developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
+  <div className="simMatrix" >
+    <h2 className="font-midnights" style={{color:"#ecf2f8",  textAlign: 'center', marginTop: '10px' }}>Developer Compatibility Matrix</h2>
+     <BarGraph4 title="Matrix" />
   </div>
 ) : null}
 
@@ -304,7 +311,8 @@ function Home() {
 
 
       {/* Project Workload */}
-      <div>
+      {developerInfo4 && (
+        <div>
         <div className="grid-container">
           <div className="grid-item">
             <BarGraph title="Commits per Developer" />
@@ -321,6 +329,8 @@ function Home() {
 
         </div>
       </div>
+      )};
+      
 
 
 
