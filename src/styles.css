@@ -240,7 +240,7 @@ button {
 .tableHead{
   font-family: 'Midnights';
   color:#161b22;
-  background-color:#a2d2fb;
+  background-color:#5052ff;
   border-color: #282c34;
   align-items: center;
   border-style: hidden;
@@ -260,7 +260,7 @@ border-style: hidden;
 align-items: center;
 text-align-last: center;
 text-align: center;
-color: #a2d2fb;
+color: #e5ecf1;
 border-collapse:separate  ;
 }
 
@@ -287,7 +287,7 @@ border-collapse:separate  ;
 .tableHeadSim{
   font-family: 'Midnights';
   color:#161b22;
-  background-color:#7ce38b;
+  background-color:#5052ff;
   border-color: #282c34;
   align-items: center;
   border-style: hidden;
@@ -307,7 +307,7 @@ border-style: hidden;
 align-items: center;
 text-align-last: center;
 text-align: center;
-color: #ddf4e0;
+color: #e5ecf1;
 border-collapse:separate  ;
 }
 
@@ -315,10 +315,78 @@ border-collapse:separate  ;
   font-family: 'Midnights';
   color:#010a1c;
   background-color:#2f6ce729;
-  border-color: #a2d2fb;
+  border-color: #a2d1fb4d;
   align-items: center;
   border-style: hidden;
   border-collapse:separate  ;
+}
+
+
+
+.buttonSection{
+  background-color: #21262d;
+  margin-top: 80px;
+  height:fit-content;
+  width: 1500px;
+  justify-content: space-between;
+  font-family: 'font-midnights';
+
+}
+
+.altdiv {
+  float: left;
+  justify-content: space-evenly;
+  display: flex;
+}
+
+.aa {
+  background: rgba(255, 0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-section {
+  font-size: 30px !important;
+  ;
+
+  ;
+
+
+  color:#7ce38b;
+  padding: 20px 60px 20px 80px;
+  align-items: center;
+}
+
+.selected {
+  opacity: 1;
+  ;
+}
+
+.button-section:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: .3s;
+}
+
+.buttoncont {
+  background-color: #ffffff00;
+  border: none;
+  color: white;
+  padding: 20px 100px 20px 100px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 40px;
+  margin: 4px 2px;
+  cursor: pointer;
+  
+}
+
+.anadiv{
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  width:1000px;
 }
 
 
@@ -390,6 +458,10 @@ border-collapse:separate  ;
 .themeblue{
   background-color:#4894fc;
 
+}
+
+.chartBlue{
+  background-color: #5052ff;
 }
 
 .simMatrix{
