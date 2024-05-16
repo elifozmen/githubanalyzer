@@ -26,20 +26,20 @@ const BarGraph4 = () => {
   // Define a color scale for the similarity values
   const getColor = (value) => {
     // Adjust the color scale as needed
-    if (value >= 0.8) return '#570601'; // High similarity
-    if (value >= 0.6) return '#ae342b'; // Medium similarity
-    if (value >= 0.4) return '#f45246'; // Low similarity
-    if (value >= 0.2) return '#fa7970'; // very Low similarity
-    return '#f0a19c'; // Very low similarity
+    if (value >= 0.8) return '#252771'; // High similarity
+    if (value >= 0.6) return '#4143a2'; // Medium similarity
+    if (value >= 0.4) return '#5052ff'; // Low similarity
+    if (value >= 0.2) return '#a0a2f9'; // very Low similarity
+    return '#b4b6fdba'; // Very low similarity
   };
 
   const cellStyle = {
-    width: '50px',
-    height: '50px',
+    width: '100px',
+    height: '100px',
     border: '1px solid #000',
     textAlign: 'center',
     lineHeight: '50px',
-    fontSize: '16px',
+    fontSize: '30px',
     fontWeight: 'bold',
   };
 

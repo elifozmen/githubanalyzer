@@ -56,6 +56,7 @@ function Home() {
           total_developer_count: response.data.total_developer_count,
           developer_names: response.data.developer_names,
         });
+        setShowMessage(false);
       })
       .catch(error => {
         console.error('Error getting developer info4:', error);
@@ -142,18 +143,18 @@ function Home() {
       <Navbar />
       <div className="repo-link" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'top', marginBottom: '100px' }}>
         <div className="github-img">
-          <img src={logo2} width={200} height={200} alt="GitHub Logo" />
+          <img src={logo2} width={500} height={500} alt="GitHub Logo" />
         </div>
-        <div className="link-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '40px', width: '80vh' }}>
+        <div className="link-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '50px', width: '800px' }}>
           <input className="linkInput" type="text" placeholder={val} onChange={handleChange} />
-          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '400px', height: '40px' }} onClick={handleClick}> Submit </button>
+          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize:'40px'}} onClick={handleClick}> Submit </button>
           {showMessage && (
-            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '25px', display: 'inline-block', padding: '10px' }} repeat={Infinity} />
+            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
-          <div className="buttonSection">
+          <div className="buttonSection" style={{fontFamily:'Midnights', border: '1px solid white', borderRadius:'10px'}}>
             <div class="aa"  >
               <div class="anadiv"  >
-                <div class="button-section" style={{paddingLeft:"10px"}} id="infoButton" onClick={handleInfoButtonClick}>
+                <div class="button-section" style={{paddingLeft:'10px'}} id="infoButton" onClick={handleInfoButtonClick}>
                   <button class="buttoncont">General Information</button>
                 </div>
                 <div class="button-section" style={{alignContent:"center"}}  id="categoryButton" onClick={handleCategoriesButtonClick}>
@@ -171,9 +172,9 @@ function Home() {
         </div>
       </div>
       {showInfo && developerInfo4 && (
-        <div>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px' }}>General Information:</h2>
-          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white', marginTop: '0px' }}>
+        <div className="generalInformationDiv" style={{alignContent:'center'}}>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize:'30px'}}>General Information:</h2>
+          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white', marginTop: '0px', marginLeft:'500px' }}>
             <table className="generalInfo">
               <thead className="tableHead">
                 <tr className="tableColumns" style={{ borderColor: '#282c34' }} >
@@ -197,15 +198,15 @@ function Home() {
       )}
       {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames ? (
         <div>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px' }}>Developer Categories:</h2>
-          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px' }}>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Categories:</h2>
+          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px', marginLeft:'500px'}}>
             <table className="generalInfo">
               <thead className="tableHead">
                 <tr className="tableColumns">
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Name</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Jack (%)</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Maven (%)</th>
+                  <th className="tableHeadCells" style={{ padding: '8px' }}>File Coverage Rate (%)</th>
+                  <th className="tableHeadCells" style={{ padding: '8px' }}>Rare File Coverage Rate (%)</th>
                 </tr>
               </thead>
               <tbody>
@@ -232,8 +233,8 @@ function Home() {
       )}
       {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
         <div style={{ alignItems: "center", alignContent: "center" }}>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px' }}>Developer Compatibilities:</h2>
-          <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto' }}>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Compatibilities:</h2>
+          <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginLeft:'350px' }}>
             {developerInfo5.developerIDs.map((id, index) => (
               <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
                 <table className="generalInfoSim">
@@ -267,7 +268,7 @@ function Home() {
       ) : null}
       {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
         <div className="simMatrix" >
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px' }}>Developer Compatibility Matrix</h2>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px', fontSize:'30px' }}>Developer Compatibility Matrix</h2>
           <BarGraph4 title="Matrix" />
         </div>
       ) : null}

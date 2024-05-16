@@ -52,10 +52,10 @@ const BarGraph5 = ({ title }) => {
   };
 
   const graphStyle = {
+    minHeight: '10rem',
+    maxWidth: '6000px',
     minHeight: '400px',
-    maxWidth: '800px',
     width: '100%',
-    margin: '0 auto',
     border: '1px solid #C4C4C4',
     borderRadius: '0.375rem',
     padding: '1rem',

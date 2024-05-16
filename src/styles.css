@@ -118,10 +118,12 @@ body{
   flex-direction: column;
   align-items: center;
   color: #afc7f46c;
+  width:500px;
+  height:500px;
 }
 
 input {
-  width: 100%;
+  width: 800px;
   margin-bottom: 10px;
 }
 
@@ -169,18 +171,18 @@ button {
   line-height: 24px;
   color: var(--textColor, var(--buttonColor));
   cursor: pointer;
-  font-size: calc(var(--fontSize) * 1rem);
+  font-size: calc(var(--fontSize) * 2rem);
   font-weight: bold;
   font-family: sans-serif;
   outline: transparent;
   padding: calc(var(--verticalPadding) * 1px) calc(var(--horizontalPadding) * 1px);
   position: relative;
   text-decoration: none;
-  height: 40px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
+  width: 800px;
   transition: transform 0.2s;
   transform: translate(0, calc(var(--y, 0) * 1%)) scale(var(--scale, 1));
 }
@@ -211,7 +213,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 600px;
   transition: transform 0.2s;
   transform: translate(0, calc(var(--y, 0) * 1%)) scale(var(--scale, 1));
 }
@@ -235,6 +237,10 @@ button {
   border-color: #282c34;
   font-family: 'Midnights';
   border-style: hidden;
+  height:auto;
+  width:800px;
+  font-size:30px;
+  align-content: center;
 }
 
 .tableHead{
@@ -282,6 +288,10 @@ border-collapse:separate  ;
   border-color: #282c34;
   font-family: 'Midnights';
   border-style: hidden;
+  width:1000px;
+  height:fit-content;
+  font-size: 30px;
+ 
 }
 
 .tableHeadSim{
@@ -324,12 +334,14 @@ border-collapse:separate  ;
 
 
 .buttonSection{
-  background-color: #21262d;
+  background-color: #21262d00;
   margin-top: 80px;
   height:fit-content;
   width: 1500px;
+  height:100px;
   justify-content: space-between;
-  font-family: 'font-midnights';
+  font-family: 'Midnights';
+
 
 }
 
@@ -346,7 +358,7 @@ border-collapse:separate  ;
 }
 
 .button-section {
-  font-size: 30px !important;
+  font-size: 20px !important;
   ;
 
   ;
@@ -372,11 +384,11 @@ border-collapse:separate  ;
   background-color: #ffffff00;
   border: none;
   color: white;
-  padding: 20px 100px 20px 100px;
+  padding: 0px 100px 100px 100px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 40px;
+  font-size: 30px;
   margin: 4px 2px;
   cursor: pointer;
   
@@ -464,6 +476,24 @@ border-collapse:separate  ;
   background-color: #5052ff;
 }
 
+.chartBlueHigh{
+  background-color: #252771;
+}
+
+.chartBlueMed{
+  background-color: #4143a2;
+}
+
+.chartBlueVeryLow{
+  background-color: #a0a2f9;
+}
+
+.chartBlueNone{
+  background-color: #b4b6fdba;
+}
+
+
+
 .simMatrix{
   align-content: center;
   align-items: center;
@@ -473,4 +503,9 @@ border-collapse:separate  ;
   margin:auto;
   margin-top: 5px;
   margin-bottom: 100px;
+}
+
+
+.generalInformationDiv{
+
 }
