@@ -151,7 +151,7 @@ function Home() {
           {showMessage && (
             <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
-          <div className="buttonSection" style={{fontFamily:'Midnights', border: '1px solid white', borderRadius:'10px'}}>
+          <div className="buttonSection" style={{fontFamily:'Midnights', border: '0px solid white', borderRadius:'10px'}}>
             <div class="aa"  >
               <div class="anadiv"  >
                 <div class="button-section" style={{paddingLeft:'10px'}} id="infoButton" onClick={handleInfoButtonClick}>
