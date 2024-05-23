@@ -7,7 +7,8 @@ import BarGraph4 from './BarChart/BarChart4';
 import BarGraph from './BarChart/BarChart';
 import BarGraph2 from './BarChart/BarChart2';
 import BarGraph3 from './BarChart/BarChart3';
-import BarGraph5 from './BarChart/BarChart5';
+import BarGraph5 from './BarChart/BarChart5'
+import BoxPlotComponent from './BarChart/BoxPlot1.js';
 import { TypeAnimation } from 'react-type-animation';
 import "swiftie/midnights.css"
 
@@ -22,6 +23,7 @@ function Home() {
   const [showCategories, setShowCategories] = useState(false);
   const [showCompatibilities, setShowCompatibilities] = useState(false);
   const [showWorkload, setShowWorkload] = useState(false);
+  
 
   useEffect(() => {
     getDeveloperInfo4();
@@ -137,6 +139,9 @@ function Home() {
     setShowCompatibilities(false);
     setShowWorkload(true);
   };
+
+  const apiUrl1 = 'http://localhost:5001/get-box-plot-1-data';
+  const apiUrl2 = 'http://localhost:5001/get-box-plot-2-data';
 
   return (
     <div style={{ color: 'white' }}>
@@ -284,9 +289,17 @@ function Home() {
             <div className="grid-item">
               <BarGraph3 title="Lines per Developer" />
             </div>
-            <div className="grid-item">
+            <div className="grid-item" >
               <BarGraph5 title="Balance" />
             </div>
+            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+            <BoxPlotComponent title={"Box Plot Files"} apiUrl={apiUrl1}/>
+            </div> 
+
+            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+            <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2}/>
+            </div>
+
           </div>
         </div>
       )}
