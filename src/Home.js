@@ -18,6 +18,7 @@ function Home() {
   const [developerInfo4, setDeveloperInfo4] = useState(null);
   const [developerInfo5, setDeveloperInfo5] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
+  const [dataUpdated, setDataUpdated] = useState(false);  // State to trigger re-fetching of data
 
   const [showInfo, setShowInfo] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
@@ -26,21 +27,24 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getDeveloperInfo4();
-      await getDeveloperInfo();
-      await fetchDeveloperSimilarity();
+      if (dataUpdated) {
+        await getDeveloperInfo4();
+        await getDeveloperInfo();
+        await fetchDeveloperSimilarity();
+        setDataUpdated(false);  // Reset the update trigger after fetching data
+      }
     };
     
     fetchData();
-
     const interval = setInterval(fetchData, 10000); // 10 saniyede bir veri güncellemesini kontrol et
     return () => clearInterval(interval); // Temizleme işlevi
-  }, []);
+  }, [dataUpdated]);
 
   const sendGitHubLinkToFlask = (githubLink) => {
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
         setShowMessage(true);
+        setDataUpdated(true);  // Set the data updated trigger to true on successful submission
       })
       .catch(error => {
         console.error('Error sending GitHub link to Flask:', error);
