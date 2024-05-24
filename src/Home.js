@@ -7,10 +7,10 @@ import BarGraph4 from './BarChart/BarChart4';
 import BarGraph from './BarChart/BarChart';
 import BarGraph2 from './BarChart/BarChart2';
 import BarGraph3 from './BarChart/BarChart3';
-import BarGraph5 from './BarChart/BarChart5'
+import BarGraph5 from './BarChart/BarChart5';
 import BoxPlotComponent from './BarChart/BoxPlot1.js';
 import { TypeAnimation } from 'react-type-animation';
-import "swiftie/midnights.css"
+import "swiftie/midnights.css";
 
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
@@ -23,84 +23,87 @@ function Home() {
   const [showCategories, setShowCategories] = useState(false);
   const [showCompatibilities, setShowCompatibilities] = useState(false);
   const [showWorkload, setShowWorkload] = useState(false);
-  
 
   useEffect(() => {
-    getDeveloperInfo4();
-    getDeveloperInfo();
-    const fetchDeveloperSimilarity = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/get-similarity');
-        setDeveloperInfo5(response.data);
-      } catch (error) {
-        console.error('Error fetching developer similarity:', error);
-      }
+    const fetchData = async () => {
+      await getDeveloperInfo4();
+      await getDeveloperInfo();
+      await fetchDeveloperSimilarity();
     };
-    fetchDeveloperSimilarity();
+    
+    fetchData();
+
+    const interval = setInterval(fetchData, 10000); // 10 saniyede bir veri güncellemesini kontrol et
+    return () => clearInterval(interval); // Temizleme işlevi
   }, []);
 
   const sendGitHubLinkToFlask = (githubLink) => {
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
-        setDeveloperInfo(response.data);
+        setShowMessage(true);
       })
       .catch(error => {
         console.error('Error sending GitHub link to Flask:', error);
       });
   };
 
-  const getDeveloperInfo4 = () => {
-    axios.get('http://localhost:5001/get-developer-info4')
-      .then(response => {
-        setDeveloperInfo4({
-          total_commit_count: response.data.total_commit_count,
-          total_file_count: response.data.total_file_count,
-          total_developer_count: response.data.total_developer_count,
-          developer_names: response.data.developer_names,
-        });
-        setShowMessage(false);
-      })
-      .catch(error => {
-        console.error('Error getting developer info4:', error);
+  const getDeveloperInfo4 = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-developer-info4');
+      setDeveloperInfo4({
+        total_commit_count: response.data.total_commit_count,
+        total_file_count: response.data.total_file_count,
+        total_developer_count: response.data.total_developer_count,
+        developer_names: response.data.developer_names,
       });
+      setShowMessage(false);
+    } catch (error) {
+      console.error('Error getting developer info4:', error);
+    }
   };
 
-  const getDeveloperInfo = () => {
-    axios.get('http://localhost:5001/get-developer-info')
-      .then(response => {
-        setDeveloperInfo(response.data);
-        getDeveloperInfo2();
-        getDeveloperInfo3();
-      })
-      .catch(error => {
-        console.error('Error getting developer info:', error);
-      });
+  const getDeveloperInfo = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-developer-info');
+      setDeveloperInfo(response.data);
+      await getDeveloperInfo2();
+      await getDeveloperInfo3();
+    } catch (error) {
+      console.error('Error getting developer info:', error);
+    }
   };
 
-  const getDeveloperInfo2 = () => {
-    axios.get('http://localhost:5001/get-developer-info2')
-      .then(response => {
-        setDeveloperInfo(prevState => ({
-          ...prevState,
-          JackRatios: response.data.JackRatios
-        }));
-      })
-      .catch(error => {
-        console.error('Error getting developer info2:', error);
-      });
+  const getDeveloperInfo2 = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-developer-info2');
+      setDeveloperInfo(prevState => ({
+        ...prevState,
+        JackRatios: response.data.JackRatios
+      }));
+    } catch (error) {
+      console.error('Error getting developer info2:', error);
+    }
   };
 
-  const getDeveloperInfo3 = () => {
-    axios.get('http://localhost:5001/get-developer-info3')
-      .then(response => {
-        setDeveloperInfo(prevState => ({
-          ...prevState,
-          Maven: response.data.Maven
-        }));
-      })
-      .catch(error => {
-        console.error('Error getting developer info3:', error);
-      });
+  const getDeveloperInfo3 = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-developer-info3');
+      setDeveloperInfo(prevState => ({
+        ...prevState,
+        Maven: response.data.Maven
+      }));
+    } catch (error) {
+      console.error('Error getting developer info3:', error);
+    }
+  };
+
+  const fetchDeveloperSimilarity = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-similarity');
+      setDeveloperInfo5(response.data);
+    } catch (error) {
+      console.error('Error fetching developer similarity:', error);
+    }
   };
 
   const handleClick = () => {
@@ -157,19 +160,19 @@ function Home() {
             <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
           <div className="buttonSection" style={{fontFamily:'Midnights', border: '0px solid white', borderRadius:'10px'}}>
-            <div class="aa"  >
-              <div class="anadiv"  >
-                <div class="button-section" style={{paddingLeft:'10px'}} id="infoButton" onClick={handleInfoButtonClick}>
-                  <button class="buttoncont">General Information</button>
+            <div className="aa">
+              <div className="anadiv">
+                <div className="button-section" style={{paddingLeft:'10px'}} id="infoButton" onClick={handleInfoButtonClick}>
+                  <button className="buttoncont">General Information</button>
                 </div>
-                <div class="button-section" style={{alignContent:"center"}}  id="categoryButton" onClick={handleCategoriesButtonClick}>
-                  <button class="buttoncont">Categories</button>
+                <div className="button-section" style={{alignContent:"center"}} id="categoryButton" onClick={handleCategoriesButtonClick}>
+                  <button className="buttoncont">Categories</button>
                 </div>
-                <div class="button-section" style={{alignContent:"center"}} id="similarButton" onClick={handleCompatibilitiesButtonClick}>
-                  <button class="buttoncont">Compatibilities</button>
+                <div className="button-section" style={{alignContent:"center"}} id="similarButton" onClick={handleCompatibilitiesButtonClick}>
+                  <button className="buttoncont">Compatibilities</button>
                 </div>
-                <div class="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleWorkloadButtonClick}>
-                  <button class="buttoncont">Workload Distribution</button>
+                <div className="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleWorkloadButtonClick}>
+                  <button className="buttoncont">Workload Distribution</button>
                 </div>
               </div>
             </div>
@@ -182,7 +185,7 @@ function Home() {
           <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white', marginTop: '0px', marginLeft:'500px' }}>
             <table className="generalInfo">
               <thead className="tableHead">
-                <tr className="tableColumns" style={{ borderColor: '#282c34' }} >
+                <tr className="tableColumns" style={{ borderColor: '#282c34' }}>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Names</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total Commit Count</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total File Count</th>
@@ -201,7 +204,7 @@ function Home() {
           </div>
         </div>
       )}
-      {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames ? (
+      {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames && (
         <div>
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Categories:</h2>
           <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px', marginLeft:'500px'}}>
@@ -231,12 +234,8 @@ function Home() {
             </table>
           </div>
         </div>
-      ) : (
-        <div className="font-midnights" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          {/* Handle loading state or display a message when developerInfo is undefined */}
-        </div>
       )}
-      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
+      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
         <div style={{ alignItems: "center", alignContent: "center" }}>
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Compatibilities:</h2>
           <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginLeft:'350px' }}>
@@ -270,13 +269,13 @@ function Home() {
             ))}
           </div>
         </div>
-      ) : null}
-      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity ? (
-        <div className="simMatrix" >
+      )}
+      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
+        <div className="simMatrix">
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px', fontSize:'30px' }}>Developer Compatibility Matrix</h2>
           <BarGraph4 title="Matrix" />
         </div>
-      ) : null}
+      )}
       {showWorkload && developerInfo4 && (
         <div>
           <div className="grid-container">
@@ -289,17 +288,15 @@ function Home() {
             <div className="grid-item">
               <BarGraph3 title="Lines per Developer" />
             </div>
-            <div className="grid-item" >
+            <div className="grid-item">
               <BarGraph5 title="Balance" />
             </div>
             <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
-            <BoxPlotComponent title={"Box Plot Files"} apiUrl={apiUrl1}/>
-            </div> 
-
-            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
-            <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2}/>
+              <BoxPlotComponent title={"Box Plot Files"} apiUrl={apiUrl1} />
             </div>
-
+            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+              <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2} />
+            </div>
           </div>
         </div>
       )}
