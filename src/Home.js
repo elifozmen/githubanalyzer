@@ -10,6 +10,7 @@ import BarGraph3 from './BarChart/BarChart3';
 import BarGraph5 from './BarChart/BarChart5';
 import BoxPlotComponent from './BarChart/BoxPlot1.js';
 import { TypeAnimation } from 'react-type-animation';
+import Footer from './Footer.js';
 import "swiftie/midnights.css";
 
 function Home() {
@@ -304,7 +305,9 @@ function Home() {
           </div>
         </div>
       )}
+       <Footer/>
     </div>
+   
   );
 }
 
