@@ -49,6 +49,7 @@ const BarGraph = ({ title }) => {
     border: '1px solid #C4C4C4',
     borderRadius: '0.375rem',
     padding: '1rem',
+    textColor: 'white',
   };
 
   return (
