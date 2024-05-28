@@ -12,6 +12,65 @@ import BoxPlotComponent from './BarChart/BoxPlot1.js';
 import { TypeAnimation } from 'react-type-animation';
 import Footer from './Footer.js';
 import "swiftie/midnights.css";
+import StackedPlot from './BarChart/StackedPlot.js';
+
+const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
+  return (
+    <>
+      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>
+            Developer Compatibilities:
+          </h2>
+          <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <label style={{ marginRight: '10px' }}>Select Developer Name:</label>
+              <select value={selectedDeveloperName} onChange={handleDeveloperNameChange}>
+                <option value="">Select Name</option>
+                {developerInfo5.developerNames.map((name, index) => (
+                  <option key={index} value={name}>{name}</option>
+                ))}
+              </select>
+            </div>
+            <button onClick={() => handleShowAll(!showAll)} style={{ marginBottom: '20px' }}>
+              {showAll ? 'Show Selected' : 'Show All'}
+            </button>
+            {developerInfo5.developerIDs.map((id, index) => (
+              (showAll || id === selectedDeveloperID || developerInfo5.developerNames[index] === selectedDeveloperName) && (
+                <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
+                  <table className="generalInfoSim" style={{ margin: '0 auto', width: '1000px' }}>
+                    <thead className="tableHeadSim">
+                      <tr className="tableColumnsSim">
+                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer ID</th>
+                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer Name</th>
+                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Similar Developers</th>
+                      </tr>
+                    </thead>
+                    <tbody key={index}>
+                      <tr>
+                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{id}</td>
+                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
+                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                          <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
+                            {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
+                              <li key={simIndex}>
+                                Developer ID: {similarDev}, Developer Name: {developerInfo5.developerNames[developerInfo5.developerIDs.indexOf(similarDev)]}, Similarity: {similarity.toFixed(3)}
+                              </li>
+                            ))}
+                          </ul>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
@@ -19,12 +78,16 @@ function Home() {
   const [developerInfo4, setDeveloperInfo4] = useState(null);
   const [developerInfo5, setDeveloperInfo5] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
-  const [dataUpdated, setDataUpdated] = useState(false);  // State to trigger re-fetching of data
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   const [showInfo, setShowInfo] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showCompatibilities, setShowCompatibilities] = useState(false);
   const [showWorkload, setShowWorkload] = useState(false);
+
+  const [selectedDeveloperID, setSelectedDeveloperID] = useState('');
+  const [selectedDeveloperName, setSelectedDeveloperName] = useState('');
+  const [showAllDevelopers, setShowAllDevelopers] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,20 +95,20 @@ function Home() {
         await getDeveloperInfo4();
         await getDeveloperInfo();
         await fetchDeveloperSimilarity();
-        setDataUpdated(false);  // Reset the update trigger after fetching data
+        setDataUpdated(false);
       }
     };
-    
+
     fetchData();
-    const interval = setInterval(fetchData, 10000); // 10 saniyede bir veri güncellemesini kontrol et
-    return () => clearInterval(interval); // Temizleme işlevi
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
   }, [dataUpdated]);
 
   const sendGitHubLinkToFlask = (githubLink) => {
     axios.post('http://localhost:5001/submit-github-link', { github_link: githubLink })
       .then(response => {
         setShowMessage(true);
-        setDataUpdated(true);  // Set the data updated trigger to true on successful submission
+        setDataUpdated(true);
       })
       .catch(error => {
         console.error('Error sending GitHub link to Flask:', error);
@@ -148,6 +211,18 @@ function Home() {
     setShowWorkload(true);
   };
 
+  const handleDeveloperIDChange = (event) => {
+    setSelectedDeveloperID(event.target.value);
+  };
+
+  const handleDeveloperNameChange = (event) => {
+    setSelectedDeveloperName(event.target.value);
+  };
+
+  const handleShowAll = (show) => {
+    setShowAllDevelopers(show);
+  };
+
   const apiUrl1 = 'http://localhost:5001/get-box-plot-1-data';
   const apiUrl2 = 'http://localhost:5001/get-box-plot-2-data';
 
@@ -240,41 +315,16 @@ function Home() {
           </div>
         </div>
       )}
-      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
-        <div style={{ alignItems: "center", alignContent: "center" }}>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Compatibilities:</h2>
-          <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginLeft:'350px' }}>
-            {developerInfo5.developerIDs.map((id, index) => (
-              <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
-                <table className="generalInfoSim">
-                  <thead className="tableHeadSim">
-                    <tr className="tableColumnsSim">
-                      <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer ID</th>
-                      <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer Name</th>
-                      <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Similar Developers</th>
-                    </tr>
-                  </thead>
-                  <tbody key={index}>
-                    <tr>
-                      <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{id}</td>
-                      <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
-                      <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                        <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
-                          {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
-                            <li key={simIndex}>
-                              Developer ID: {similarDev}, Similarity: {similarity.toFixed(3)}
-                            </li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <DeveloperCompatibilities
+        showCompatibilities={showCompatibilities}
+        developerInfo5={developerInfo5}
+        selectedDeveloperID={selectedDeveloperID}
+        selectedDeveloperName={selectedDeveloperName}
+        handleDeveloperIDChange={handleDeveloperIDChange}
+        handleDeveloperNameChange={handleDeveloperNameChange}
+        showAll={showAllDevelopers}
+        handleShowAll={handleShowAll}
+      />
       {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
         <div className="simMatrix">
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px', fontSize:'30px' }}>Developer Compatibility Matrix</h2>
@@ -302,12 +352,14 @@ function Home() {
             <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
               <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2} />
             </div>
+            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+              <StackedPlot/>
+            </div>
           </div>
         </div>
       )}
-       <Footer/>
+      <Footer/>
     </div>
-   
   );
 }
 
