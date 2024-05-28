@@ -14,7 +14,6 @@ export default function Footer() {
             <ul>
                 <li><a href="#" class="footer-link">Repo Analyzer</a></li>
                 <li><a href="#" class="footer-link ">Manage Tool</a></li>
-                <li><a href="#" class="footer-link">CEO Panel</a></li>
                 <li><a href="#" class="footer-link">Company Manager</a></li>
             </ul>
         </div>
@@ -23,7 +22,6 @@ export default function Footer() {
             <ul>
                 <li><a href="#" class="footer-link">Your Account</a></li>
                 <li><a href="#" class="footer-link">Become an Affiliate</a></li>
-                <li><a href="#" class="footer-link">Shipping Rates</a></li>
                 <li><a href="#" class="footer-link">Help</a></li>
             </ul>
         </div>
@@ -32,7 +30,7 @@ export default function Footer() {
             <p><i class="fas fa-home"></i> Çekmeköy, Istanbul, Turkey</p>
             <p><i class="fas fa-envelope"></i> info@gmail.com</p>
             <p><i class="fas fa-phone"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print"></i> + 01 234 567 89</p>
+            
         </div>
     </div>
     <div class="footer-bottom">

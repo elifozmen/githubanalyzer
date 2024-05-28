@@ -13,6 +13,7 @@ import { TypeAnimation } from 'react-type-animation';
 import Footer from './Footer.js';
 import "swiftie/midnights.css";
 import StackedPlot from './BarChart/StackedPlot.js';
+import SolverComponent from './SolverComponent';
 
 const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
   return (
@@ -72,6 +73,61 @@ const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selecte
   );
 };
 
+const DeveloperCommitDetails = ({ developerCommitDetails }) => {
+  const parseDate = (dateString) => {
+    if (dateString && typeof dateString === 'string') {
+      const date = new Date(dateString);
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString();
+      } else {
+        const [year, month, day] = dateString.split(' ')[0].split('-');
+        return new Date(year, month - 1, day).toLocaleDateString();
+      }
+    }
+    return '';
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+      <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize: '30px' }}>
+        Developer Commit Details:
+      </h2>
+      {developerCommitDetails && developerCommitDetails.commit_times && developerCommitDetails.commit_frequency && (
+        <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+          <table className="generalInfoSim" style={{ margin: '0 auto', width: '1000px' }}>
+            <thead className="tableHeadSim">
+              <tr className="tableColumnsSim">
+                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer Name</th>
+                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>First Commit</th>
+                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Last Commit</th>
+                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Commit Frequency</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(developerCommitDetails.commit_times).map((developer, index) => (
+                <tr key={index}>
+                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                    {developer}
+                  </td>
+                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                    {parseDate(developerCommitDetails.commit_times[developer].first_commit)}
+                  </td>
+                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                    {parseDate(developerCommitDetails.commit_times[developer].last_commit)}
+                  </td>
+                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
+                    {developerCommitDetails.commit_frequency[developer]}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
+
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
   const [developerInfo, setDeveloperInfo] = useState(null);
@@ -84,10 +140,24 @@ function Home() {
   const [showCategories, setShowCategories] = useState(false);
   const [showCompatibilities, setShowCompatibilities] = useState(false);
   const [showWorkload, setShowWorkload] = useState(false);
+  const [showIssue, setShowIssue] = useState(false);
+
+  
 
   const [selectedDeveloperID, setSelectedDeveloperID] = useState('');
   const [selectedDeveloperName, setSelectedDeveloperName] = useState('');
   const [showAllDevelopers, setShowAllDevelopers] = useState(false);
+
+  const [developerCommitDetails, setDeveloperCommitDetails] = useState(null);
+
+  const getDeveloperCommitDetails = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/get-developer-commit-details');
+      setDeveloperCommitDetails(response.data);
+    } catch (error) {
+      console.error('Error getting developer commit details:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,6 +165,9 @@ function Home() {
         await getDeveloperInfo4();
         await getDeveloperInfo();
         await fetchDeveloperSimilarity();
+        await getDeveloperCommitDetails(); 
+        await // Fetch commit details
+
         setDataUpdated(false);
       }
     };
@@ -123,6 +196,7 @@ function Home() {
         total_file_count: response.data.total_file_count,
         total_developer_count: response.data.total_developer_count,
         developer_names: response.data.developer_names,
+        developer_issues: response.data.developer_issues,
       });
       setShowMessage(false);
     } catch (error) {
@@ -188,6 +262,8 @@ function Home() {
     setShowCategories(false);
     setShowCompatibilities(false);
     setShowWorkload(false);
+    setShowIssue(false);
+
   };
 
   const handleCategoriesButtonClick = () => {
@@ -195,6 +271,8 @@ function Home() {
     setShowCategories(true);
     setShowCompatibilities(false);
     setShowWorkload(false);
+    setShowIssue(false);
+
   };
 
   const handleCompatibilitiesButtonClick = () => {
@@ -202,6 +280,8 @@ function Home() {
     setShowCategories(false);
     setShowCompatibilities(true);
     setShowWorkload(false);
+    setShowIssue(false);
+
   };
 
   const handleWorkloadButtonClick = () => {
@@ -209,6 +289,15 @@ function Home() {
     setShowCategories(false);
     setShowCompatibilities(false);
     setShowWorkload(true);
+    setShowIssue(false);
+  };
+
+  const handleIssueButtonClick = () => {
+    setShowInfo(false);
+    setShowCategories(false);
+    setShowCompatibilities(false);
+    setShowWorkload(false);
+    setShowIssue(true);
   };
 
   const handleDeveloperIDChange = (event) => {
@@ -237,7 +326,7 @@ function Home() {
           <input className="linkInput" type="text" placeholder={val} onChange={handleChange} />
           <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize:'40px'}} onClick={handleClick}> Submit </button>
           {showMessage && (
-            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
+            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
           <div className="buttonSection" style={{fontFamily:'Midnights', border: '0px solid white', borderRadius:'10px'}}>
             <div className="aa">
@@ -254,22 +343,26 @@ function Home() {
                 <div className="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleWorkloadButtonClick}>
                   <button className="buttoncont">Workload Distribution</button>
                 </div>
+                <div className="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleIssueButtonClick}>
+                  <button className="buttoncont">Issue Distribution</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       {showInfo && developerInfo4 && (
-        <div className="generalInformationDiv" style={{alignContent:'center'}}>
+        <div className="generalInformationDiv" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize:'30px'}}>General Information:</h2>
-          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white', marginTop: '0px', marginLeft:'500px' }}>
-            <table className="generalInfo">
+          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white' }}>
+            <table className="generalInfo" style={{ margin: '0 auto' }}>
               <thead className="tableHead">
                 <tr className="tableColumns" style={{ borderColor: '#282c34' }}>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Names</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total Commit Count</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total File Count</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total Developer Count</th>
+                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Issue Count</th>
                 </tr>
               </thead>
               <tbody>
@@ -278,10 +371,13 @@ function Home() {
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_commit_count}</td>
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_file_count}</td>
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_developer_count}</td>
+                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.closed_issues}</td>
+
                 </tr>
               </tbody>
             </table>
           </div>
+          <DeveloperCommitDetails developerCommitDetails={developerCommitDetails} />
         </div>
       )}
       {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames && (
@@ -358,6 +454,17 @@ function Home() {
           </div>
         </div>
       )}
+
+
+{showIssue &&  (
+        <div >
+            <SolverComponent title={"Solvers"} />  
+        </div>
+      )}
+
+
+
+      
       <Footer/>
     </div>
   );
