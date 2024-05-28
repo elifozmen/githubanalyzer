@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
-import { options } from './BarChart/BarChartOptions';
+
+// Function to generate dynamic colors
+const generateColors = (numColors) => {
+  const colors = [];
+  const letters = '0123456789ABCDEF';
+  for (let i = 0; i < numColors; i++) {
+    let color = '#';
+    for (let j = 0; j < 6; j++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    colors.push(color);
+  }
+  return colors;
+};
 
 const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
   const [solvers, setSolvers] = useState({});
@@ -34,14 +47,17 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
     fetchSolvers(threshold);
   };
 
+  const numDevelopers = Object.keys(solvers).length;
+  const colors = generateColors(numDevelopers);
+
   const data = {
     labels: Object.keys(solvers),
     datasets: [
       {
         label: 'Closed Issues',
         data: Object.values(solvers),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Use color from options
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: colors,
+        borderColor: colors.map(color => color.replace('0.6', '1')),
         borderWidth: 1,
       },
     ],
@@ -49,6 +65,7 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
 
   const graphStyle = {
     minHeight: '10rem',
+    maxWidth: '6000px',
     minHeight: '400px',
     maxHeight: '400px', // Adjust height to make it smaller
     maxWidth: '800px', // Adjust width to make it smaller
@@ -57,6 +74,40 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
     borderRadius: '0.375rem',
     padding: '1rem',
   };
+
+  const options = (title) => ({
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          color: '#fff',
+        },
+      },
+      title: {
+        display: true,
+        text: title,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed !== null) {
+              label += context.parsed;
+            }
+            return label;
+          },
+        },
+        backgroundColor: '#fff',
+        titleColor: '#000',
+        bodyColor: '#000',
+      },
+    },
+  });
 
   return (
     <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>
@@ -75,21 +126,21 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
           <table style={{ margin: '0 auto', marginTop: '20px', borderCollapse: 'collapse', width: '50%' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid white' }}>
-                <th style={{ padding: '8px' }}>Developer Name</th>
-                <th style={{ padding: '8px' }}>Closed Issues</th>
+                <th style={{ padding: '8px', color: 'white', fontSize: '18px' }}>Developer Name</th>
+                <th style={{ padding: '8px', color: 'white', fontSize: '18px' }}>Closed Issues</th>
               </tr>
             </thead>
             <tbody>
               {Object.entries(solvers).map(([developer, closedIssues], index) => (
                 <tr key={index} style={{ borderBottom: '1px solid gray' }}>
-                  <td style={{ padding: '8px' }}>{developer}</td>
-                  <td style={{ padding: '8px' }}>{closedIssues}</td>
+                  <td style={{ padding: '8px', color: 'white', fontSize: '16px' }}>{developer}</td>
+                  <td style={{ padding: '8px', color: 'white', fontSize: '16px' }}>{closedIssues}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div style={graphStyle}>
-            <Bar data={data} options={options(title)} />
+            <Pie data={data} options={options(title)} />
           </div>
         </>
       )}

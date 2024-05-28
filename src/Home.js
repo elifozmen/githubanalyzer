@@ -14,6 +14,8 @@ import Footer from './Footer.js';
 import "swiftie/midnights.css";
 import StackedPlot from './BarChart/StackedPlot.js';
 import SolverComponent from './SolverComponent';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
   return (
@@ -128,6 +130,130 @@ const DeveloperCommitDetails = ({ developerCommitDetails }) => {
   );
 };
 
+const DeveloperCategories = ({ showCategories, developerInfo }) => {
+  if (!showCategories || !developerInfo || !developerInfo.developerIDs || !developerInfo.developerNames) {
+    return null;
+  }
+
+  const totalJackRatios = developerInfo.developerIDs.reduce((sum, id) => {
+    return sum + (developerInfo.JackRatios[id] || 0);
+  }, 0);
+
+  const totalMavenRatios = developerInfo.developerIDs.reduce((sum, id) => {
+    return sum + (developerInfo.Maven[id] || 0);
+  }, 0);
+
+  const averageJackRatio = (totalJackRatios / developerInfo.developerIDs.length).toFixed(3);
+  const averageMavenRatio = (totalMavenRatios / developerInfo.developerIDs.length).toFixed(3);
+
+  const dataFileCoverage = {
+    labels: developerInfo.developerNames,
+    datasets: [
+      {
+        label: 'File Coverage Rate (%)',
+        data: developerInfo.developerIDs.map(id => developerInfo.JackRatios[id] || 0),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const dataRareFileCoverage = {
+    labels: developerInfo.developerNames,
+    datasets: [
+      {
+        label: 'Rare File Coverage Rate (%)',
+        data: developerInfo.developerIDs.map(id => developerInfo.Maven[id] || 0),
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = (title) => ({
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: title,
+      },
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Developers',
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Percentage',
+        },
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+
+  return (
+    <div>
+      <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>Developer Categories:</h2>
+      <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px' }}>
+        <table className="generalInfo">
+          <thead className="tableHead">
+            <tr className="tableColumns">
+              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
+              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Name</th>
+              <th className="tableHeadCells" style={{ padding: '8px' }}>File Coverage Rate (%)</th>
+              <th className="tableHeadCells" style={{ padding: '8px' }}>Rare File Coverage Rate (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {developerInfo.developerIDs.map((id, index) => (
+              <tr key={index}>
+                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{id}</td>
+                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
+                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
+                  {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
+                </td>
+                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
+                  {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
+                </td>
+              </tr>
+            ))}
+            <tr>
+              <td className="tableCells" colSpan="2" style={{ border: '1px solid gray', padding: '8px', textAlign: 'right', }}>Average</td>
+              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageJackRatio}%</td>
+              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageMavenRatio}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style={{ marginTop: '50px' }}>
+        <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', fontSize: '30px' }}>File Coverage Rate (%)</h2>
+        <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+          <Bar data={dataFileCoverage} options={options('File Coverage Rate (%)')} />
+        </div>
+      </div>
+      <div style={{ marginTop: '50px' }}>
+        <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', fontSize: '30px' }}>Rare File Coverage Rate (%)</h2>
+        <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+          <Bar data={dataRareFileCoverage} options={options('Rare File Coverage Rate (%)')} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
   const [developerInfo, setDeveloperInfo] = useState(null);
@@ -141,8 +267,6 @@ function Home() {
   const [showCompatibilities, setShowCompatibilities] = useState(false);
   const [showWorkload, setShowWorkload] = useState(false);
   const [showIssue, setShowIssue] = useState(false);
-
-  
 
   const [selectedDeveloperID, setSelectedDeveloperID] = useState('');
   const [selectedDeveloperName, setSelectedDeveloperName] = useState('');
@@ -165,8 +289,7 @@ function Home() {
         await getDeveloperInfo4();
         await getDeveloperInfo();
         await fetchDeveloperSimilarity();
-        await getDeveloperCommitDetails(); 
-        await // Fetch commit details
+        await getDeveloperCommitDetails();
 
         setDataUpdated(false);
       }
@@ -196,7 +319,8 @@ function Home() {
         total_file_count: response.data.total_file_count,
         total_developer_count: response.data.total_developer_count,
         developer_names: response.data.developer_names,
-        developer_issues: response.data.developer_issues,
+        total_issues: response.data.total_issues,
+        closed_issues: response.data.closed_issues,
       });
       setShowMessage(false);
     } catch (error) {
@@ -263,7 +387,6 @@ function Home() {
     setShowCompatibilities(false);
     setShowWorkload(false);
     setShowIssue(false);
-
   };
 
   const handleCategoriesButtonClick = () => {
@@ -272,7 +395,6 @@ function Home() {
     setShowCompatibilities(false);
     setShowWorkload(false);
     setShowIssue(false);
-
   };
 
   const handleCompatibilitiesButtonClick = () => {
@@ -281,7 +403,6 @@ function Home() {
     setShowCompatibilities(true);
     setShowWorkload(false);
     setShowIssue(false);
-
   };
 
   const handleWorkloadButtonClick = () => {
@@ -315,7 +436,6 @@ function Home() {
   const apiUrl1 = 'http://localhost:5001/get-box-plot-1-data';
   const apiUrl2 = 'http://localhost:5001/get-box-plot-2-data';
 
-
   return (
     <div style={{ color: 'white' }}>
       <Navbar />
@@ -325,26 +445,26 @@ function Home() {
         </div>
         <div className="link-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '50px', width: '800px' }}>
           <input className="linkInput" type="text" placeholder={val} onChange={handleChange} />
-          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize:'40px'}} onClick={handleClick}> Submit </button>
+          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize: '40px' }} onClick={handleClick}> Submit </button>
           {showMessage && (
             <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
-          <div className="buttonSection" style={{fontFamily:'Midnights', border: '0px solid white', borderRadius:'10px'}}>
+          <div className="buttonSection" style={{ fontFamily: 'Midnights', border: '0px solid white', borderRadius: '10px' }}>
             <div className="aa">
               <div className="anadiv">
-                <div className="button-section" style={{paddingLeft:'10px'}} id="infoButton" onClick={handleInfoButtonClick}>
+                <div className="button-section" style={{ paddingLeft: '10px' }} id="infoButton" onClick={handleInfoButtonClick}>
                   <button className="buttoncont">General Information</button>
                 </div>
-                <div className="button-section" style={{alignContent:"center"}} id="categoryButton" onClick={handleCategoriesButtonClick}>
+                <div className="button-section" style={{ alignContent: "center" }} id="categoryButton" onClick={handleCategoriesButtonClick}>
                   <button className="buttoncont">Categories</button>
                 </div>
-                <div className="button-section" style={{alignContent:"center"}} id="similarButton" onClick={handleCompatibilitiesButtonClick}>
+                <div className="button-section" style={{ alignContent: "center" }} id="similarButton" onClick={handleCompatibilitiesButtonClick}>
                   <button className="buttoncont">Compatibilities</button>
                 </div>
-                <div className="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleWorkloadButtonClick}>
+                <div className="button-section" style={{ paddingLeft: "120px" }} id="workloadButton" onClick={handleWorkloadButtonClick}>
                   <button className="buttoncont">Workload Distribution</button>
                 </div>
-                <div className="button-section" style={{paddingLeft:"120px"}} id="workloadButton" onClick={handleIssueButtonClick}>
+                <div className="button-section" style={{ paddingLeft: "120px" }} id="workloadButton" onClick={handleIssueButtonClick}>
                   <button className="buttoncont">Issue Distribution</button>
                 </div>
               </div>
@@ -354,7 +474,7 @@ function Home() {
       </div>
       {showInfo && developerInfo4 && (
         <div className="generalInformationDiv" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize:'30px'}}>General Information:</h2>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize: '30px' }}>General Information:</h2>
           <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white' }}>
             <table className="generalInfo" style={{ margin: '0 auto' }}>
               <thead className="tableHead">
@@ -364,6 +484,7 @@ function Home() {
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total File Count</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total Developer Count</th>
                   <th className="tableHeadCells" style={{ padding: '8px' }}>Total Issue Count</th>
+                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Closed Issue Count</th>
                 </tr>
               </thead>
               <tbody>
@@ -372,50 +493,20 @@ function Home() {
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_commit_count}</td>
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_file_count}</td>
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_developer_count}</td>
+                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_issues}</td>
                   <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.closed_issues}</td>
-
                 </tr>
               </tbody>
             </table>
           </div>
           <DeveloperCommitDetails developerCommitDetails={developerCommitDetails} />
-          <h1 > Monthly Lines of Coded Stack Plot</h1>
-          <div style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px"}}>
-              <StackedPlot/>
-            </div>
-        </div>
-      )}
-      {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames && (
-        <div>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize:'30px' }}>Developer Categories:</h2>
-          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px', marginLeft:'500px'}}>
-            <table className="generalInfo">
-              <thead className="tableHead">
-                <tr className="tableColumns">
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Name</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>File Coverage Rate (%)</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Rare File Coverage Rate (%)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {developerInfo.developerIDs.map((id, index) => (
-                  <tr key={index}>
-                    <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{id}</td>
-                    <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
-                    <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                      {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
-                    </td>
-                    <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                      {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <h1>Monthly Lines of Coded Stack Plot</h1>
+          <div style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px" }}>
+            <StackedPlot />
           </div>
         </div>
       )}
+      {showCategories && <DeveloperCategories showCategories={showCategories} developerInfo={developerInfo} />}
       <DeveloperCompatibilities
         showCompatibilities={showCompatibilities}
         developerInfo5={developerInfo5}
@@ -428,7 +519,7 @@ function Home() {
       />
       {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
         <div className="simMatrix">
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px', fontSize:'30px' }}>Developer Compatibility Matrix</h2>
+          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '10px', fontSize: '30px' }}>Developer Compatibility Matrix</h2>
           <BarGraph4 title="Matrix" />
         </div>
       )}
@@ -447,27 +538,21 @@ function Home() {
             <div className="grid-item">
               <BarGraph5 title="Balance" />
             </div>
-            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+            <div className="grid-item" style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem" }}>
               <BoxPlotComponent title={"Box Plot Files"} apiUrl={apiUrl1} />
             </div>
-            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
+            <div className="grid-item" style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem" }}>
               <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2} />
             </div>
           </div>
         </div>
       )}
-
-
-{showIssue &&  (
-        <div >
-            <SolverComponent title={"Solvers"} />  
+      {showIssue && (
+        <div>
+          <SolverComponent title={"Solvers"} />
         </div>
       )}
-
-
-
-      
-      <Footer/>
+      <Footer />
     </div>
   );
 }

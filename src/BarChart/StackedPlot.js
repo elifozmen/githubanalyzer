@@ -34,6 +34,9 @@ const StackedPlot = () => {
       legend: {
         labels: {
           colors: '#fff',
+          useSeriesColors: false,
+          fontSize: '16px',
+          fontWeight: 'bold',
         },
       },
       yaxis: {
@@ -43,7 +46,6 @@ const StackedPlot = () => {
           },
         },
       },
-      
       tooltip: {
         theme: 'dark',
         style: {
@@ -65,13 +67,10 @@ const StackedPlot = () => {
         const response = await axios.get('http://localhost:5001/get-stacked-plot-data');
         const data = response.data;
 
-
         const seriesData = data.series.map((item) => ({
           name: item.name,
           data: item.data,
         }));
-
-       
 
         setChartData((prevState) => ({
           ...prevState,
@@ -85,7 +84,6 @@ const StackedPlot = () => {
     fetchData();
   }, []);
 
- 
   return (
     <div id="chart">
       <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={500} width={1000} />
