@@ -315,6 +315,7 @@ function Home() {
   const apiUrl1 = 'http://localhost:5001/get-box-plot-1-data';
   const apiUrl2 = 'http://localhost:5001/get-box-plot-2-data';
 
+
   return (
     <div style={{ color: 'white' }}>
       <Navbar />
@@ -378,6 +379,10 @@ function Home() {
             </table>
           </div>
           <DeveloperCommitDetails developerCommitDetails={developerCommitDetails} />
+          <h1 > Monthly Lines of Coded Stack Plot</h1>
+          <div style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px"}}>
+              <StackedPlot/>
+            </div>
         </div>
       )}
       {showCategories && developerInfo && developerInfo.developerIDs && developerInfo.developerNames && (
@@ -447,9 +452,6 @@ function Home() {
             </div>
             <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
               <BoxPlotComponent title={"Box Plot Lines"} apiUrl={apiUrl2} />
-            </div>
-            <div className="grid-item" style={{border: '1px solid #C4C4C4', borderRadius: "0.375rem"}}>
-              <StackedPlot/>
             </div>
           </div>
         </div>

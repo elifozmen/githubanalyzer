@@ -22,11 +22,38 @@ const StackedPlot = () => {
       },
       xaxis: {
         type: 'category',
-        categories: [],
+        categories: [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ],
+        labels: {
+          style: {
+            colors: '#fff',
+          },
+        },
       },
+      legend: {
+        labels: {
+          colors: '#fff',
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: '#fff',
+          },
+        },
+      },
+      
       tooltip: {
+        theme: 'dark',
+        style: {
+          fontSize: '12px',
+          fontFamily: undefined,
+          background: '#fff',
+          color: '#000000',
+        },
         x: {
-          format: 'dd/MM/yy',
+          format: 'MM/yyyy',
         },
       },
     },
@@ -38,23 +65,17 @@ const StackedPlot = () => {
         const response = await axios.get('http://localhost:5001/get-stacked-plot-data');
         const data = response.data;
 
-        const categories = data.dates || [];
-        const seriesData = Object.keys(data.data || {}).map((year) => ({
-          name: year,
-          data: data.data[year],
+
+        const seriesData = data.series.map((item) => ({
+          name: item.name,
+          data: item.data,
         }));
-        console.log("datalar:", seriesData);
+
+       
 
         setChartData((prevState) => ({
           ...prevState,
           series: seriesData,
-          options: {
-            ...prevState.options,
-            xaxis: {
-              ...prevState.options.xaxis,
-              categories: categories,
-            },
-          },
         }));
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -64,9 +85,10 @@ const StackedPlot = () => {
     fetchData();
   }, []);
 
+ 
   return (
     <div id="chart">
-      <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={350} width={600} />
+      <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={500} width={1000} />
     </div>
   );
 };
