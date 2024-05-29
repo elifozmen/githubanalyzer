@@ -60,29 +60,38 @@ const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selecte
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>
-          Developer Compatibilities:
-        </h2>
-        <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            <label style={{ marginRight: '10px' }}>Select Developer Name:</label>
-            <select value={selectedDeveloperName} onChange={handleDeveloperNameChange}>
-              <option value="">Select Name</option>
-              {developerInfo5.developerNames.map((name, index) => (
-                <option key={index} value={name}>{name}</option>
-              ))}
-            </select>
-          </div>
-          <button onClick={() => handleShowAll(!showAll)} style={{ marginBottom: '20px' }}>
-            {showAll ? 'Show Selected' : 'Show All'}
-          </button>
-          <SimpleTableView
-            dataHeaders={["Developer ID", "Developer Name", "Similar Developers"]}
-            data={tableData}
-          />
+     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>
+        Developer Compatibilities:
+      </h2>
+      <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <label style={{ marginRight: '15px', fontSize:'15px' }}>Select Developer Name:</label>
+          <select
+            value={selectedDeveloperName}
+            onChange={handleDeveloperNameChange}
+            style={{ padding: '5px', fontSize: '15px', borderRadius: '5px', border: '1px solid #ccc', textAlign: 'center'}}
+          >
+            <option value="">Select Name</option>
+            {developerInfo5.developerNames.map((name, index) => (
+              <option key={index} value={name}>{name}</option>
+            ))}
+          </select>
         </div>
+        <Button
+          className="btn-fill"
+          color="primary"
+          style={{ marginBottom: '20px', width: '200px', height: '40px', fontSize: '15px' }}
+          onClick={() => handleShowAll(!showAll)}
+        >
+          {showAll ? 'Show Selected' : 'Show All'}
+        </Button>
+        <SimpleTableView
+          dataHeaders={["Developer ID", "Developer Name", "Similar Developers"]}
+          data={tableData}
+        />
       </div>
+    </div>
     </>
   );
 };
@@ -159,6 +168,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
+        textColor: 'rgba(250, 250, 250, 250)',
       },
     ],
   };

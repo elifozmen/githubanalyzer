@@ -55,7 +55,7 @@ const BarGraph5 = ({ title }) => {
     minHeight: '10rem',
     maxWidth: '6000px',
     minHeight: '400px',
-    width: '100%',
+    width: '90%',
     border: '1px solid #C4C4C4',
     borderRadius: '0.375rem',
     padding: '1rem',

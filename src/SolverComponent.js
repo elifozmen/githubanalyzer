@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
+import { Button, Input } from "reactstrap";
 import 'chart.js/auto';
-
+import "./Template/assets/css/black-dashboard-react.css";
+import "./Template/assets/css/black-dashboard-react.css.map";
+import "./Template/assets/css/nucleo-icons.css";
+import { SimpleTableView } from "./Template/backedComponents/SimpleTable/SimpleTableView.js";
 // Function to generate dynamic colors
 const generateColors = (numColors) => {
   const colors = [];
@@ -65,7 +69,6 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
 
   const graphStyle = {
     minHeight: '10rem',
-    maxWidth: '6000px',
     minHeight: '400px',
     maxHeight: '400px', // Adjust height to make it smaller
     maxWidth: '800px', // Adjust width to make it smaller
@@ -73,6 +76,7 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
     border: '1px solid #C4C4C4',
     borderRadius: '0.375rem',
     padding: '1rem',
+    margin: 'auto', // Center the graph horizontally
   };
 
   const options = (title) => ({
@@ -109,36 +113,43 @@ const SolverComponent = ({ title = 'Closed Issues by Developer' }) => {
     },
   });
 
+
+  const tableData = Object.entries(solvers).map(([developer, closedIssues]) => ({
+    "Developer Name": developer,
+    "Closed Issues": closedIssues
+  }));
+
   return (
     <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>
       <h2>Developer Solvers</h2>
       <div>
-        <label>
+        <label style={{ marginRight: '10px' }}>
           Threshold:
-          <input type="number" value={threshold} onChange={handleThresholdChange} style={{ marginLeft: '10px' }} />
+          <Input
+            type="number"
+            value={threshold}
+            onChange={handleThresholdChange}
+            style={{ marginLeft: '10px', display: 'inline-block', width: 'auto',height:'60px', padding: '10px', fontSize: '16px', borderRadius: '5px', border: '1px solid #ccc' }}
+          />
         </label>
-        <button onClick={handleFetchSolvers} style={{ marginLeft: '10px' }}>Fetch Solvers</button>
+        <Button
+          className="btn-fill"
+          color="primary"
+          style={{ marginLeft: '10px', width: '150px', height: '60px', fontSize: '15px', textAlign:'center'}}
+          onClick={handleFetchSolvers}
+        >Fetch Solvers
+        </Button>
       </div>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {solvers && Object.keys(solvers).length > 0 && (
         <>
-          <table style={{ margin: '0 auto', marginTop: '20px', borderCollapse: 'collapse', width: '50%' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid white' }}>
-                <th style={{ padding: '8px', color: 'white', fontSize: '18px' }}>Developer Name</th>
-                <th style={{ padding: '8px', color: 'white', fontSize: '18px' }}>Closed Issues</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(solvers).map(([developer, closedIssues], index) => (
-                <tr key={index} style={{ borderBottom: '1px solid gray' }}>
-                  <td style={{ padding: '8px', color: 'white', fontSize: '16px' }}>{developer}</td>
-                  <td style={{ padding: '8px', color: 'white', fontSize: '16px' }}>{closedIssues}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '20px', marginBottom: '40px' }}>
+            <SimpleTableView
+              dataHeaders={["Developer Name", "Closed Issues"]}
+              data={tableData}
+            />
+          </div>
           <div style={graphStyle}>
             <Pie data={data} options={options(title)} />
           </div>

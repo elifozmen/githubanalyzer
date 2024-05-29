@@ -4,19 +4,13 @@ export default function Navbar() {
     return (
         <div className="navbar">
             <div className="left-content">  
-                <img
+            <img
                   src='/2.png' // Logo image
                   alt='Logo'
                   className='logo2'
                 />
                 <Link to="/" className='nav-link'>
                     <span className='brand-name'>GithubAnalyzer</span>
-                </Link>
-                <Link to="/products" className='nav-link'>
-                    <span className='link'>Products</span>
-                </Link>
-                <Link to="/about-us" className='nav-link'>
-                    <span className='link'>About Us</span>
                 </Link>
             </div>
             <div className="right-content"> 

@@ -35,7 +35,7 @@ const BoxPlotComponent = ({ title , apiUrl}) => {
     <Plot
       data={datasets}
       layout={{
-        width: 800,
+        width: 500,
         height: 800,
         title: title,  // Direct string assignment
         xaxis: {
