@@ -380,6 +380,7 @@ border-collapse:separate  ;
   height:100px;
   justify-content: space-between;
   font-family: 'Midnights';
+  flex-direction: column;
 
 
 }
@@ -394,6 +395,7 @@ border-collapse:separate  ;
   background: rgba(255, 0, 0, 0);
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .button-section {
@@ -434,7 +436,7 @@ border-collapse:separate  ;
 }
 
 .anadiv{
-  flex-direction: row;
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
   width:1000px;
@@ -553,18 +555,19 @@ border-collapse:separate  ;
 .footer {
   background-color: #21262d;
   color: white;
-  padding: 10px 0;
-  font-family: Arial, sans-serif;
-  font-size: 14px; 
-  height: 350px; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  padding: 10px 60px;
+  height: 90px;
 }
 
 .footer-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start; 
-  width: 80%;
-  height: 90%;
+  width: auto;
+  height: auto;
   margin: 0 auto;
 }
 
@@ -572,6 +575,7 @@ border-collapse:separate  ;
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
+  margin-left: 5px;
 }
 
 .footer-heading {
@@ -623,5 +627,34 @@ ul {
     width: 100%; /* Full width for small screens */
   }
 }
+
+.sidebar {
+  font-family: 'Midnights';
+  border: 0 solid white;
+  border-radius: 10px;
+  width: 200px;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.button-section {
+  margin-bottom: 10px;
+}
+
+.buttoncont {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.buttoncont:hover {
+  background-color: #0056b3;
+}
+
 
 

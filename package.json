@@ -5,7 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.17",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
     "@nextui-org/react": "^2.3.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -22,6 +23,7 @@
     "perfect-scrollbar": "^1.5.5",
     "plotly.js-basic-dist": "^2.32.0",
     "popper.js": "^1.16.1",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-chartjs-2": "^5.2.0",

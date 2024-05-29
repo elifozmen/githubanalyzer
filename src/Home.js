@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar.js';
 import './styles.css';
+import "./Template/assets/css/black-dashboard-react.css";
+import "./Template/assets/css/black-dashboard-react.css.map";
+import "./Template/assets/css/nucleo-icons.css";
+import { SimpleTableView } from "./Template/backedComponents/SimpleTable/SimpleTableView.js";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col
+} from "reactstrap";
+
 import logo2 from './github_iconn.png';
 import BarGraph4 from './BarChart/BarChart4';
 import BarGraph from './BarChart/BarChart';
@@ -208,35 +224,15 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     <div>
       <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>Developer Categories:</h2>
       <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px' }}>
-        <table className="generalInfo">
-          <thead className="tableHead">
-            <tr className="tableColumns">
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Name</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>File Coverage Rate (%)</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Rare File Coverage Rate (%)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {developerInfo.developerIDs.map((id, index) => (
-              <tr key={index}>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{id}</td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                  {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
-                </td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                  {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td className="tableCells" colSpan="2" style={{ border: '1px solid gray', padding: '8px', textAlign: 'right', }}>Average</td>
-              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageJackRatio}%</td>
-              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageMavenRatio}%</td>
-            </tr>
-          </tbody>
-        </table>
+      <SimpleTableView
+  dataHeaders={["Developer ID", "Developer Name", "File Coverage Rate (%)", "Rare File Coverage Rate (%)"]}
+  data={developerInfo.developerIDs.map((id, index) => ({
+    "Developer ID": id,
+    "Developer Name": developerInfo.developerNames[index],
+    "File Coverage Rate (%)": developerInfo.JackRatios[id] ? developerInfo.JackRatios[id].toFixed(3) : '-',
+    "Rare File Coverage Rate (%)": developerInfo.Maven[id] ? developerInfo.Maven[id].toFixed(3) : '-',
+  }))}
+/>
       </div>
       <div style={{ marginTop: '50px' }}>
         <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', fontSize: '30px' }}>File Coverage Rate (%)</h2>
@@ -253,6 +249,8 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     </div>
   );
 };
+
+
 
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
@@ -436,20 +434,74 @@ function Home() {
   const apiUrl1 = 'http://localhost:5001/get-box-plot-1-data';
   const apiUrl2 = 'http://localhost:5001/get-box-plot-2-data';
 
+
+  const tableDataHeaders = ["name","country","city","salary"]
+      const TableData = [
+          {
+              name: "Dakota Rice",
+              country: "Niger",
+              city: "Oud-Turnhout",
+              salary: "$36,738"
+          },
+          {
+              name: "Minerva Hooper",
+              country: "Curaçao",
+              city: "Sinaai-Waas",
+              salary: "$23,789"
+          },
+          {
+              name: "Sage Rodriguez",
+              country: "Netherlands",
+              city: "Baileux",
+              salary: "$56,142"
+          },
+          {
+              name: "Philip Chaney",
+              country: "Korea, South",
+              city: "Overland Park",
+              salary: "$38,735"
+          },
+      ] 
+
   return (
     <div style={{ color: 'white' }}>
       <Navbar />
-      <div className="repo-link" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'top', marginBottom: '100px' }}>
-        <div className="github-img">
-          <img src={logo2} width={500} height={500} alt="GitHub Logo" />
-        </div>
-        <div className="link-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '50px', width: '800px' }}>
-          <input className="linkInput" type="text" placeholder={val} onChange={handleChange} />
-          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize: '40px' }} onClick={handleClick}> Submit </button>
-          {showMessage && (
-            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
+      <div>
+            <div className="content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                <Row style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                    <Col md="8" style={{ maxWidth: '800px' }}>
+                        <Card style={{ width: '100%' }}>
+                            <CardBody style={{ width: '100%' }}>
+                                <Form style={{ width: '100%', textAlign: 'center' }}>
+                                    <div className="github-img" style={{ textAlign: 'center', marginBottom: '20px' }}>
+                                        <img src={logo2} width={300} height={300} alt="GitHub Logo" />
+                                    </div>
+                                    <FormGroup style={{ width: '100%' }}>
+                                        <Input
+                                            cols="80"
+                                            placeholder="Paste your Github repository link here"
+                                            rows="4"
+                                            type="textarea"
+                                            style={{ width: '100%', fontSize: '20px', textAlign: 'center' }}
+                                        />
+                                    </FormGroup>
+                                </Form>
+                            </CardBody>
+                            <CardFooter style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button className="btn-fill" color="primary" style={{ width: '100%', maxWidth: '700px', height: '60px', fontSize: '20px' }} onClick={handleClick}>
+                                    Submit
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+
+            {showMessage && (
+            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, 'You may need to refresh the page...', 2000]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
-          <div className="buttonSection" style={{ fontFamily: 'Midnights', border: '0px solid white', borderRadius: '10px' }}>
+
+        <div className="buttonSection" style={{ fontFamily: 'Midnights', border: '0px solid white', borderRadius: '10px' }}>
             <div className="aa">
               <div className="anadiv">
                 <div className="button-section" style={{ paddingLeft: '10px' }} id="infoButton" onClick={handleInfoButtonClick}>
@@ -470,8 +522,8 @@ function Home() {
               </div>
             </div>
           </div>
+
         </div>
-      </div>
       {showInfo && developerInfo4 && (
         <div className="generalInformationDiv" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize: '30px' }}>General Information:</h2>
@@ -499,6 +551,7 @@ function Home() {
               </tbody>
             </table>
           </div>
+
           <DeveloperCommitDetails developerCommitDetails={developerCommitDetails} />
           <h1>Monthly Lines of Coded Stack Plot</h1>
           <div style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px" }}>
@@ -552,7 +605,7 @@ function Home() {
           <SolverComponent title={"Solvers"} />
         </div>
       )}
-      <Footer />
+     
     </div>
   );
 }

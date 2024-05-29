@@ -6,6 +6,14 @@ import "./assets/css/nucleo-icons.css";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TypeAnimation } from 'react-type-animation';
+import classNames from "classnames";
+// react plugin used to create charts
+import { Line } from "react-chartjs-2";
+import Sidebar from "./Sidebar/Sidebar.js";
+
+// core components
+import { SimpleTableView } from "./backedComponents/SimpleTable/SimpleTableView";
+import { SimpleTable } from "./backedComponents/SimpleTable/SimpleTable";
 
 // reactstrap components
 import {
@@ -65,8 +73,41 @@ function HomePage() {
         setShowMessage(true);
       };
 
+
+
+      const tableDataHeaders = ["name","country","city","salary"]
+      const TableData = [
+          {
+              name: "Dakota Rice",
+              country: "Niger",
+              city: "Oud-Turnhout",
+              salary: "$36,738"
+          },
+          {
+              name: "Minerva Hooper",
+              country: "Curaçao",
+              city: "Sinaai-Waas",
+              salary: "$23,789"
+          },
+          {
+              name: "Sage Rodriguez",
+              country: "Netherlands",
+              city: "Baileux",
+              salary: "$56,142"
+          },
+          {
+              name: "Philip Chaney",
+              country: "Korea, South",
+              city: "Overland Park",
+              salary: "$38,735"
+          },
+      ] 
+
     return (
         <div>
+            <Sidebar>
+                
+                </Sidebar>
             <div className="content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
                 <Row style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <Col md="8" style={{ maxWidth: '800px' }}>
@@ -94,6 +135,13 @@ function HomePage() {
                             </CardFooter>
                         </Card>
                     </Col>
+
+                </Row>
+
+                <Row style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <Col lg="6" md="12" style={{ maxWidth: '800px' }}>
+            <SimpleTableView dataHeaders = {tableDataHeaders} data = {TableData}/>
+          </Col>
                 </Row>
             </div>
 

@@ -17,10 +17,6 @@ function App() {
             <div>
                 <Routes>
                     <Route exact path="/" element={<Home />} /> {/* Ana sayfa rotası */}
-                    <Route path="/categories" element={<Categories/>} />
-                    <Route path="/compatibility" element={<Compatibility/>} />
-                    <Route path="/workload" element={<Workload/>} />
-                    <Route path="/info" element={<Info/>} />
                     <Route path="/homepage" element={<HomePage/>} />
                     {/* Diğer sayfa rotalarını da buraya ekleyin */}
                 </Routes>

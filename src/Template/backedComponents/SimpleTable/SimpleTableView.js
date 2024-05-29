@@ -10,11 +10,11 @@ import {
 
 export function SimpleTableView(props) {
     return(
-        <Card>
+        <Card style={{ width: '100%' }}>
             <CardHeader>
                 <CardTitle tag="h4">Simple Table</CardTitle>
             </CardHeader>
-            <CardBody>
+            <CardBody style={{ width: '100%' }}>
                 <Table className="tablesorter" responsive>
                     <thead className="text-primary">
                     <tr>
