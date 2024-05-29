@@ -27,7 +27,7 @@ body{
   width: 70px; 
   height: 70px;
   object-fit: contain; 
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 .media {
@@ -40,6 +40,7 @@ body{
 .nav-link {
   text-decoration: none; 
   color: white;
+  padding-top: 30px;
   margin-right: 20px; 
   border-bottom: 3px solid transparent;
   transition: border-color 0.3s ease;
@@ -92,7 +93,7 @@ body{
     
   }
   
-  a:link, a:visited {
+  /* a:link, a:visited {
     background-color: rgba(71,70,70,0);
     color: white;
     padding: 14px 25px;
@@ -101,7 +102,7 @@ body{
     display:inline-block;
     padding: 0px;
   
-  }
+  } */
   
   a:hover, a:active {
     background-color: rgba(186, 181, 181, 0.632);
