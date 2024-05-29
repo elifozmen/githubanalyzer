@@ -35,62 +35,58 @@ import 'chart.js/auto';
 
 
 const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
+  if (!showCompatibilities || !developerInfo5 || !developerInfo5.developerIDs || !developerInfo5.developerNames || !developerInfo5.Similarity) {
+    return null;
+  }
+
+  const tableData = developerInfo5.developerIDs.map((id, index) => {
+    if (showAll || id === selectedDeveloperID || developerInfo5.developerNames[index] === selectedDeveloperName) {
+      return {
+        "Developer ID": id,
+        "Developer Name": developerInfo5.developerNames[index],
+        "Similar Developers": (
+          <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
+            {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
+              <li key={simIndex}>
+                Developer ID: {similarDev}, Developer Name: {developerInfo5.developerNames[developerInfo5.developerIDs.indexOf(similarDev)]}, Similarity: {similarity.toFixed(3)}
+              </li>
+            ))}
+          </ul>
+        )
+      };
+    }
+    return null;
+  }).filter(row => row !== null);
+
   return (
     <>
-      {showCompatibilities && developerInfo5 && developerInfo5.developerIDs && developerInfo5.developerNames && developerInfo5.Similarity && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>
-            Developer Compatibilities:
-          </h2>
-          <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <label style={{ marginRight: '10px' }}>Select Developer Name:</label>
-              <select value={selectedDeveloperName} onChange={handleDeveloperNameChange}>
-                <option value="">Select Name</option>
-                {developerInfo5.developerNames.map((name, index) => (
-                  <option key={index} value={name}>{name}</option>
-                ))}
-              </select>
-            </div>
-            <button onClick={() => handleShowAll(!showAll)} style={{ marginBottom: '20px' }}>
-              {showAll ? 'Show Selected' : 'Show All'}
-            </button>
-            {developerInfo5.developerIDs.map((id, index) => (
-              (showAll || id === selectedDeveloperID || developerInfo5.developerNames[index] === selectedDeveloperName) && (
-                <div className="nav-item2" key={index} style={{ marginBottom: '40px' }}>
-                  <table className="generalInfoSim" style={{ margin: '0 auto', width: '1000px' }}>
-                    <thead className="tableHeadSim">
-                      <tr className="tableColumnsSim">
-                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer ID</th>
-                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer Name</th>
-                        <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Similar Developers</th>
-                      </tr>
-                    </thead>
-                    <tbody key={index}>
-                      <tr>
-                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{id}</td>
-                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>{developerInfo5.developerNames[index]}</td>
-                        <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                          <ul style={{ listStyle: 'none', padding: '2px', margin: '2px' }}>
-                            {Object.entries(developerInfo5.Similarity[id]).map(([similarDev, similarity], simIndex) => (
-                              <li key={simIndex}>
-                                Developer ID: {similarDev}, Developer Name: {developerInfo5.developerNames[developerInfo5.developerIDs.indexOf(similarDev)]}, Similarity: {similarity.toFixed(3)}
-                              </li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              )
-            ))}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>
+          Developer Compatibilities:
+        </h2>
+        <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            <label style={{ marginRight: '10px' }}>Select Developer Name:</label>
+            <select value={selectedDeveloperName} onChange={handleDeveloperNameChange}>
+              <option value="">Select Name</option>
+              {developerInfo5.developerNames.map((name, index) => (
+                <option key={index} value={name}>{name}</option>
+              ))}
+            </select>
           </div>
+          <button onClick={() => handleShowAll(!showAll)} style={{ marginBottom: '20px' }}>
+            {showAll ? 'Show Selected' : 'Show All'}
+          </button>
+          <SimpleTableView
+            dataHeaders={["Developer ID", "Developer Name", "Similar Developers"]}
+            data={tableData}
+          />
         </div>
-      )}
+      </div>
     </>
   );
 };
+
 
 const DeveloperCommitDetails = ({ developerCommitDetails }) => {
   const parseDate = (dateString) => {
@@ -106,46 +102,32 @@ const DeveloperCommitDetails = ({ developerCommitDetails }) => {
     return '';
   };
 
+  if (!developerCommitDetails || !developerCommitDetails.commit_times || !developerCommitDetails.commit_frequency) {
+    return null;
+  }
+
+  const tableData = Object.keys(developerCommitDetails.commit_times).map((developer, index) => ({
+    "Developer Name": developer,
+    "First Commit": parseDate(developerCommitDetails.commit_times[developer].first_commit),
+    "Last Commit": parseDate(developerCommitDetails.commit_times[developer].last_commit),
+    "Commit Frequency": developerCommitDetails.commit_frequency[developer]
+  }));
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
       <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize: '30px' }}>
         Developer Commit Details:
       </h2>
-      {developerCommitDetails && developerCommitDetails.commit_times && developerCommitDetails.commit_frequency && (
-        <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
-          <table className="generalInfoSim" style={{ margin: '0 auto', width: '1000px' }}>
-            <thead className="tableHeadSim">
-              <tr className="tableColumnsSim">
-                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Developer Name</th>
-                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>First Commit</th>
-                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Last Commit</th>
-                <th className="tableHeadCellsSim" style={{ padding: '8px' }}>Commit Frequency</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(developerCommitDetails.commit_times).map((developer, index) => (
-                <tr key={index}>
-                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                    {developer}
-                  </td>
-                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                    {parseDate(developerCommitDetails.commit_times[developer].first_commit)}
-                  </td>
-                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                    {parseDate(developerCommitDetails.commit_times[developer].last_commit)}
-                  </td>
-                  <td className="tableCellsSim" style={{ border: '1px solid gray', padding: '8px', textAlign: 'center' }}>
-                    {developerCommitDetails.commit_frequency[developer]}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div style={{ alignItems: "center", alignContent: "center", padding: '10px', borderRadius: '10px', maxWidth: '1000px', margin: 'auto' }}>
+        <SimpleTableView
+          dataHeaders={["Developer Name", "First Commit", "Last Commit", "Commit Frequency"]}
+          data={tableData}
+        />
+      </div>
     </div>
   );
 };
+
 
 const DeveloperCategories = ({ showCategories, developerInfo }) => {
   if (!showCategories || !developerInfo || !developerInfo.developerIDs || !developerInfo.developerNames) {
@@ -291,8 +273,7 @@ function Home() {
         await getDeveloperInfo();
         await fetchDeveloperSimilarity();
         await getDeveloperCommitDetails();
-
-        setDataUpdated(false);
+        setDataUpdated(false);  // Reset the update trigger after fetching data
       }
     };
 
@@ -440,7 +421,7 @@ function Home() {
   return (
     <div style={{ color: 'white' }}>
       <Navbar />
-      <div className="repo-link" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'top', marginBottom: '100px' }}>
+      <div className="repo-link" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'top', marginBottom: '100px', marginTop: '80px' }}>
         <div className="content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
         <Row style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <Col md="8" style={{ maxWidth: '800px' }}>
@@ -473,57 +454,44 @@ function Home() {
           {showMessage && (
             <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
-          <div className="buttonSection" style={{ fontFamily: 'Midnights', border: '0px solid white', borderRadius: '10px' }}>
-            <div className="aa">
-              <div className="anadiv">
-                <div className="button-section" style={{ paddingLeft: '10px' }} id="infoButton" onClick={handleInfoButtonClick}>
-                  <button className="buttoncont">General Information</button>
-                </div>
-                <div className="button-section" style={{ alignContent: "center" }} id="categoryButton" onClick={handleCategoriesButtonClick}>
-                  <button className="buttoncont">Categories</button>
-                </div>
-                <div className="button-section" style={{ alignContent: "center" }} id="similarButton" onClick={handleCompatibilitiesButtonClick}>
-                  <button className="buttoncont">Compatibilities</button>
-                </div>
-                <div className="button-section" style={{ paddingLeft: "120px" }} id="workloadButton" onClick={handleWorkloadButtonClick}>
-                  <button className="buttoncont">Workload Distribution</button>
-                </div>
-                <div className="button-section" style={{ paddingLeft: "120px" }} id="workloadButton" onClick={handleIssueButtonClick}>
-                  <button className="buttoncont">Issue Distribution</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="buttonSection">
+  <div className="anadiv">
+    <div className="button-section" id="infoButton" onClick={handleInfoButtonClick}>
+      <Button className="btn-fill" color="primary" style={{ width: '250px', height: '80px', fontSize: '20px' }}>General Information</Button>
+    </div>
+    <div className="button-section" id="categoryButton" onClick={handleCategoriesButtonClick}>
+      <Button className="btn-fill" color="primary" style={{ width: '250px', height: '80px', fontSize: '20px' }}>Developer Categories</Button>
+    </div>
+    <div className="button-section" id="similarButton" onClick={handleCompatibilitiesButtonClick}>
+      <Button className="btn-fill" color="primary" style={{ width: '250px', height: '80px', fontSize: '20px' }}>Compatibilities</Button>
+    </div>
+    <div className="button-section" id="workloadButton" onClick={handleWorkloadButtonClick}>
+      <Button className="btn-fill" color="primary" style={{ width: '250px', height: '80px', fontSize: '20px' }}>Workload Distribution</Button>
+    </div>
+    <div className="button-section" id="issueButton" onClick={handleIssueButtonClick}>
+      <Button className="btn-fill" color="primary" style={{ width: '250px', height: '80px', fontSize: '20px' }}>Issue Distribution</Button>
+    </div>
+  </div>
+</div>
           </div>
         
       </div>
       {showInfo && developerInfo4 && (
-        <div className="generalInformationDiv" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
           <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '20px', fontSize: '30px' }}>General Information:</h2>
           <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', color: 'white' }}>
-            <table className="generalInfo" style={{ margin: '0 auto' }}>
-              <thead className="tableHead">
-                <tr className="tableColumns" style={{ borderColor: '#282c34' }}>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Names</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Commit Count</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total File Count</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Developer Count</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Issue Count</th>
-                  <th className="tableHeadCells" style={{ padding: '8px' }}>Total Closed Issue Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.developer_names.join(', ')}</td>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_commit_count}</td>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_file_count}</td>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_developer_count}</td>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.total_issues}</td>
-                  <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo4.closed_issues}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <SimpleTableView
+        dataHeaders={["Developer Names", "Total Commit Count", "Total File Count", "Total Developer Count", "Total Issue Count", "Total Closed Issue Count"]}
+        data={[{
+          "Developer Names": developerInfo4.developer_names.join(', '),
+          "Total Commit Count": developerInfo4.total_commit_count,
+          "Total File Count": developerInfo4.total_file_count,
+          "Total Developer Count": developerInfo4.total_developer_count,
+          "Total Issue Count": developerInfo4.total_issues,
+          "Total Closed Issue Count": developerInfo4.closed_issues
+        }]}
+      />
+    </div>
           <DeveloperCommitDetails developerCommitDetails={developerCommitDetails} />
           <h1>Monthly Lines of Coded Stack Plot</h1>
           <div style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px" }}>

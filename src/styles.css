@@ -372,16 +372,14 @@ border-collapse:separate  ;
 
 
 
-.buttonSection{
+.buttonSection {
   background-color: #21262d00;
   margin-top: 80px;
-  height:fit-content;
-  width: 1500px;
-  height:100px;
-  justify-content: space-between;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   font-family: 'Midnights';
-
-
 }
 
 .altdiv {
@@ -397,17 +395,11 @@ border-collapse:separate  ;
 }
 
 .button-section {
-  font-size: 20px !important;
-  ;
-
-  ;
-
-
-  color:#7ce38b;
-  padding: 20px 60px 20px 80px;
+  font-size: 16px !important;
+  padding: 10px;
+  text-align: center;
   align-items: center;
 }
-
 .selected {
   opacity: 1;
   ;
@@ -433,11 +425,12 @@ border-collapse:separate  ;
   
 }
 
-.anadiv{
-  flex-direction: row;
+.anadiv {
   display: flex;
-  justify-content: space-between;
-  width:1000px;
+  justify-content: center;
+  gap: 20px; /* Adjust gap as needed */
+  width: auto;
+  flex-wrap: wrap;
 }
 
 
