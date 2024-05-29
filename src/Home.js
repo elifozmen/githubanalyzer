@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar.js';
 import './styles.css';
+import "./Template/assets/css/black-dashboard-react.css";
+import "./Template/assets/css/black-dashboard-react.css.map";
+import "./Template/assets/css/nucleo-icons.css";
+import { SimpleTableView } from "./Template/backedComponents/SimpleTable/SimpleTableView.js";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col
+} from "reactstrap";
+
 import logo2 from './github_iconn.png';
 import BarGraph4 from './BarChart/BarChart4';
 import BarGraph from './BarChart/BarChart';
@@ -16,6 +32,7 @@ import StackedPlot from './BarChart/StackedPlot.js';
 import SolverComponent from './SolverComponent';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+
 
 const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
   return (
@@ -135,12 +152,15 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     return null;
   }
 
+  const JackRatios = developerInfo.JackRatios || {};
+  const MavenRatios = developerInfo.Maven || {};
+
   const totalJackRatios = developerInfo.developerIDs.reduce((sum, id) => {
-    return sum + (developerInfo.JackRatios[id] || 0);
+    return sum + (JackRatios[id] || 0);
   }, 0);
 
   const totalMavenRatios = developerInfo.developerIDs.reduce((sum, id) => {
-    return sum + (developerInfo.Maven[id] || 0);
+    return sum + (MavenRatios[id] || 0);
   }, 0);
 
   const averageJackRatio = (totalJackRatios / developerInfo.developerIDs.length).toFixed(3);
@@ -151,7 +171,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     datasets: [
       {
         label: 'File Coverage Rate (%)',
-        data: developerInfo.developerIDs.map(id => developerInfo.JackRatios[id] || 0),
+        data: developerInfo.developerIDs.map(id => JackRatios[id] || 0),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
@@ -164,7 +184,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     datasets: [
       {
         label: 'Rare File Coverage Rate (%)',
-        data: developerInfo.developerIDs.map(id => developerInfo.Maven[id] || 0),
+        data: developerInfo.developerIDs.map(id => MavenRatios[id] || 0),
         backgroundColor: 'rgba(153, 102, 255, 0.6)',
         borderColor: 'rgba(153, 102, 255, 1)',
         borderWidth: 1,
@@ -208,35 +228,15 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     <div>
       <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', marginTop: '50px', fontSize: '30px' }}>Developer Categories:</h2>
       <div style={{ padding: '5px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '5px' }}>
-        <table className="generalInfo">
-          <thead className="tableHead">
-            <tr className="tableColumns">
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer ID</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Developer Name</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>File Coverage Rate (%)</th>
-              <th className="tableHeadCells" style={{ padding: '8px' }}>Rare File Coverage Rate (%)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {developerInfo.developerIDs.map((id, index) => (
-              <tr key={index}>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{id}</td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{developerInfo.developerNames[index]}</td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                  {developerInfo.JackRatios && developerInfo.JackRatios[id] ? `${developerInfo.JackRatios[id].toFixed(3)}%` : '-'}
-                </td>
-                <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>
-                  {developerInfo.Maven && developerInfo.Maven[id] ? `${developerInfo.Maven[id].toFixed(3)}%` : '-'}
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td className="tableCells" colSpan="2" style={{ border: '1px solid gray', padding: '8px', textAlign: 'right', }}>Average</td>
-              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageJackRatio}%</td>
-              <td className="tableCells" style={{ border: '1px solid gray', padding: '8px' }}>{averageMavenRatio}%</td>
-            </tr>
-          </tbody>
-        </table>
+        <SimpleTableView
+          dataHeaders={["Developer ID", "Developer Name", "File Coverage Rate (%)", "Rare File Coverage Rate (%)"]}
+          data={developerInfo.developerIDs.map((id, index) => ({
+            "Developer ID": id,
+            "Developer Name": developerInfo.developerNames[index],
+            "File Coverage Rate (%)": JackRatios[id] ? JackRatios[id].toFixed(3) : '-',
+            "Rare File Coverage Rate (%)": MavenRatios[id] ? MavenRatios[id].toFixed(3) : '-',
+          }))}
+        />
       </div>
       <div style={{ marginTop: '50px' }}>
         <h2 className="font-midnights" style={{ color: "#ecf2f8", textAlign: 'center', fontSize: '30px' }}>File Coverage Rate (%)</h2>
@@ -253,6 +253,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     </div>
   );
 };
+
 
 function Home() {
   const [val, setVal] = useState("Paste your GitHub repository link here.");
@@ -440,12 +441,35 @@ function Home() {
     <div style={{ color: 'white' }}>
       <Navbar />
       <div className="repo-link" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'top', marginBottom: '100px' }}>
-        <div className="github-img">
-          <img src={logo2} width={500} height={500} alt="GitHub Logo" />
-        </div>
-        <div className="link-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '50px', width: '800px' }}>
-          <input className="linkInput" type="text" placeholder={val} onChange={handleChange} />
-          <button className="dir-control" style={{ color: "#4894fc", textColor: '#4894fc', fontFamily: 'Midnights', width: '800px', height: '60px', fontSize: '40px' }} onClick={handleClick}> Submit </button>
+        <div className="content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <Row style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                    <Col md="8" style={{ maxWidth: '800px' }}>
+                        <Card style={{ width: '100%' }}>
+                            <CardBody style={{ width: '100%' }}>
+                                <Form style={{ width: '100%', textAlign: 'center' }}>
+                                    <div className="github-img" style={{ textAlign: 'center', marginBottom: '20px' }}>
+                                        <img src={logo2} width={300} height={300} alt="GitHub Logo" />
+                                    </div>
+                                    <FormGroup style={{ width: '100%' }}>
+                                        <Input
+                                            cols="80"
+                                            placeholder="Paste your Github repository link here"
+                                            rows="4"
+                                            type="textarea"
+                                            style={{ width: '100%', fontSize: '20px', textAlign: 'center' }}
+                                            onChange={handleChange}
+                                        />
+                                    </FormGroup>
+                                </Form>
+                            </CardBody>
+                            <CardFooter style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button className="btn-fill" color="primary" style={{ width: '100%', maxWidth: '700px', height: '60px', fontSize: '20px' }} onClick={handleClick}>
+                                    Submit
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </Col>
+                </Row>
           {showMessage && (
             <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
@@ -470,7 +494,8 @@ function Home() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        
       </div>
       {showInfo && developerInfo4 && (
         <div className="generalInformationDiv" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -552,7 +577,6 @@ function Home() {
           <SolverComponent title={"Solvers"} />
         </div>
       )}
-      <Footer />
     </div>
   );
 }
