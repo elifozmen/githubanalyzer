@@ -465,7 +465,7 @@ function Home() {
                     </Col>
                 </Row>
           {showMessage && (
-            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: '#4894fc', fontFamily: 'Midnights', fontSize: '50px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
+            <TypeAnimation sequence={['We are gathering information...', 2000, 'Thank you for your patience...', 2000, 'Please wait...', 2000, 'Thank you for using GitHub Analyzer...', 2000, ]} wrapper="span" speed={70} style={{ color: 'primary', fontFamily: 'Midnights', fontSize: '40px', display: 'inline-block', paddingTop: '50px' }} repeat={Infinity} />
           )}
           <div className="buttonSection">
   <div className="anadiv">
