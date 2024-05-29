@@ -32,6 +32,7 @@ import StackedPlot from './BarChart/StackedPlot.js';
 import SolverComponent from './SolverComponent';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import PyramidChartComponent from './BarChart/PyramidChart.js';
 
 
 const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selectedDeveloperID, selectedDeveloperName, handleDeveloperIDChange, handleDeveloperNameChange, showAll, handleShowAll }) => {
@@ -195,6 +196,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
       title: {
         display: true,
         text: title,
+        color: '#ffffff', // Set the title color to white
       },
     },
     scales: {
@@ -203,6 +205,10 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
         title: {
           display: true,
           text: 'Developers',
+          color: '#ffffff', // Set the x-axis title color to white
+        },
+        ticks: {
+          color: '#ffffff', // Set the x-axis tick color to white
         },
       },
       y: {
@@ -210,13 +216,16 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
         title: {
           display: true,
           text: 'Percentage',
+          color: '#ffffff', // Set the y-axis title color to white
         },
         ticks: {
           beginAtZero: true,
+          color: '#ffffff', // Set the y-axis tick color to white
         },
       },
     },
   });
+  
 
   return (
     <div>
@@ -510,6 +519,10 @@ function Home() {
           <div style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px" }}>
             <StackedPlot />
           </div>
+         
+          <div style={{ border: '1px solid #C4C4C4', borderRadius: "0.375rem", margin: "20px 0px 60px 0px" }}>
+              <PyramidChartComponent />
+            </div>
         </div>
       )}
       {showCategories && <DeveloperCategories showCategories={showCategories} developerInfo={developerInfo} />}

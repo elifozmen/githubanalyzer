@@ -20,11 +20,7 @@ export default function Navbar() {
                   className='media'
                 
                 />
-                <img
-                  src='/twitter-logo.png' 
-                  alt='Media Icon'
-                  className='media'
-                />
+                
                 <img
                   src='/tiktok-icon.png' 
                   alt='Media Icon'
