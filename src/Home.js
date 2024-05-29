@@ -88,6 +88,7 @@ const DeveloperCompatibilities = ({ showCompatibilities, developerInfo5, selecte
 };
 
 
+
 const DeveloperCommitDetails = ({ developerCommitDetails }) => {
   const parseDate = (dateString) => {
     if (dateString && typeof dateString === 'string') {
@@ -127,6 +128,7 @@ const DeveloperCommitDetails = ({ developerCommitDetails }) => {
     </div>
   );
 };
+
 
 
 const DeveloperCategories = ({ showCategories, developerInfo }) => {
@@ -235,6 +237,7 @@ const DeveloperCategories = ({ showCategories, developerInfo }) => {
     </div>
   );
 };
+
 
 
 function Home() {
